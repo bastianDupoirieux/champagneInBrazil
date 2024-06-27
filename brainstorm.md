@@ -14,6 +14,7 @@ Interactive, with the information on it when you click on the product you own.
 A page where you can enter the information on the product you bought
 - Name
 - Producer
+- Domaine
 - Product category
 - Location (ideally, you enter it and then select a set location offered by the system). Maybe we can get a list of producers even to have the best possible precision, if not then the city.
 - Date bought
@@ -22,6 +23,12 @@ A page where you can enter the information on the product you bought
 - option to add one or more pictures of the wine/coffee (including label etc.)
 - Space for personal comments and thoughts on the products
 - option to say: I own the product/I tried the product (e.g. at a tasting)
+- price
+- amount of bottles
+- where was it bought?
+- grape type
+- current value/price
+
 
 In the backend, this information must be sent to a database (question: will it be a local storage system or a global storage system)
 
