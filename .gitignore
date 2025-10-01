@@ -1,3 +1,5 @@
+#ignore .csv files
+.csv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -299,5 +301,8 @@ http-client.private.env.json
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
 
-
+#Ignore IntelliJ stuff
 .idea/*
+
+#Ignore database files
+*.db

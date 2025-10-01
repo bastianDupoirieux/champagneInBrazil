@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Wine Entry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Enter a Wine</h1>
+    <form method="POST">
+        {% for col in columns %}
+            <label>{{ col|replace('_', ' ')|title }}:</label>
+            <input type="text" name="{{ col }}"><br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Entries</h2>
+    <ul>
+        {% for row in wines %}
+            <li>{{ row }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
