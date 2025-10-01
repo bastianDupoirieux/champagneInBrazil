@@ -299,5 +299,8 @@ http-client.private.env.json
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
 
-
+#Ignore IntelliJ stuff
 .idea/*
+
+#Ignore database files
+*.db
