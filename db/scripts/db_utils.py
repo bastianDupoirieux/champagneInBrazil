@@ -1,16 +1,19 @@
 import sqlite3
-import os
+import sqlalchemy as db
+from pathlib import Path
 
 
 class DBUtils:
-    def __init__(self, db):
-        self.db = db
+    def __init__(self, connection_string:str):
+        self.connection_string = connection_string
 
-        self.connection = sqlite3.connect(db)
-        self.cursor = self.connection.cursor()
+        db_path = Path(connection_string)
+        if not db_path.is_file():
+            raise FileNotFoundError(f"File {db_path} does not exist")
 
-    def create_table(self, ddl):
-        self.cursor.executescript(ddl)
+        self.engine = db.create_engine(self.connection_string) #create the database engine
+
+
 
 
 
