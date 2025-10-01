@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jun 27 17:09:55 2024
-
-@author: bastd
-"""
 
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
