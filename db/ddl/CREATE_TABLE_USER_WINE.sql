@@ -13,7 +13,7 @@ vintage integer, --vintage, must be nullable for cases like Champagne
 grape_varieties text,
 date_bought text, --Date the wine was bought on
 buying_price real, --Price the wine was bought at
-expired int, --Bool value if the entry is expired (wine has been drank) or not
+expired int not null, --Bool value if the entry is expired (wine has been drank) or not
 notes text --optional field for notes
 )
 ;
