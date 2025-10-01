@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from sqlalchemy import create_engine, MetaData, Table, inspect
 from sqlalchemy.orm import sessionmaker
 
@@ -60,8 +60,14 @@ def _cast_form_value_to_column_type(raw_value, column_meta):
     return value
 
 
-@app.route("/", methods=["GET", "POST"])
-def index():
+@app.route("/")
+def entry_page():
+    # Default to My Cellar view
+    return redirect(url_for('my_cellar'))
+
+
+@app.route("/add", methods=["GET", "POST"])
+def add_wine():
     session = SessionLocal()
 
     if request.method == "POST":
@@ -82,9 +88,146 @@ def index():
 
         session.execute(user_wine.insert().values(**data))
         session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("entry_page"))
 
     wines = session.execute(user_wine.select()).fetchall()
     session.close()
 
     return render_template("index.html", columns=columns, wines=wines)
+
+
+@app.route("/cellar")
+def my_cellar():
+    session = SessionLocal()
+    wines = session.execute(user_wine.select().where(user_wine.c.expired == 0)).fetchall()
+    session.close()
+    return render_template("my_cellar.html", wines=wines, columns=columns)
+
+
+@app.route("/experienced")
+def experienced_wines():
+    session = SessionLocal()
+    wines = session.execute(user_wine.select().where(user_wine.c.expired == 1)).fetchall()
+    session.close()
+    return render_template("experienced_wines.html", wines=wines, columns=columns)
+
+
+@app.route("/analytics")
+def analytics():
+    return render_template("analytics.html")
+
+
+@app.route("/map")
+def map_page():
+    return render_template("map.html")
+
+
+@app.route("/wine/<int:wine_id>")
+def wine_detail(wine_id):
+    session = SessionLocal()
+    wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
+    session.close()
+    
+    if not wine:
+        return abort(404, description="Wine not found")
+    
+    return render_template("wine_detail.html", wine=wine, columns=columns)
+
+
+@app.route("/wine/<int:wine_id>/edit", methods=["GET", "POST"])
+def edit_wine(wine_id):
+    session = SessionLocal()
+    wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
+    
+    if not wine:
+        session.close()
+        return abort(404, description="Wine not found")
+    
+    if request.method == "POST":
+        # Build update dict dynamically from form values with proper NULL handling and type casting
+        data = {}
+        for col_name in columns:
+            col_meta = column_meta_by_name.get(col_name, {})
+            raw_value = request.form.get(col_name, "")
+            cast_value = _cast_form_value_to_column_type(raw_value, col_meta)
+            data[col_name] = cast_value
+        
+        # Enforce NOT NULL constraints (DDL: name text not null, producer text not null)
+        required_fields = [c for c in columns if not column_meta_by_name.get(c, {}).get("nullable", True)]
+        missing_required = [c for c in required_fields if data.get(c) in (None, "")]
+        if missing_required:
+            session.close()
+            return abort(400, description=f"Missing required fields: {', '.join(missing_required)}")
+        
+        # Update the wine
+        session.execute(user_wine.update().where(user_wine.c.id == wine_id).values(**data))
+        session.commit()
+        session.close()
+        
+        return redirect(url_for('wine_detail', wine_id=wine_id))
+    
+    session.close()
+    return render_template("edit_wine.html", wine=wine, columns=columns)
+
+
+@app.route("/wine/<int:wine_id>/field/<field_name>", methods=["POST"])
+def update_wine_field(wine_id, field_name):
+    session = SessionLocal()
+    wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
+    
+    if not wine:
+        session.close()
+        return jsonify({"success": False, "error": "Wine not found"})
+    
+    if field_name not in columns:
+        session.close()
+        return jsonify({"success": False, "error": "Invalid field"})
+    
+    try:
+        data = request.get_json()
+        new_value = data.get('value', '')
+        
+        # Type casting and validation
+        col_meta = column_meta_by_name.get(field_name, {})
+        cast_value = _cast_form_value_to_column_type(new_value, col_meta)
+        
+        # Check required fields
+        if not column_meta_by_name.get(field_name, {}).get("nullable", True) and cast_value in (None, ""):
+            session.close()
+            return jsonify({"success": False, "error": f"{field_name} is required"})
+        
+        # Update the field
+        session.execute(user_wine.update().where(user_wine.c.id == wine_id).values(**{field_name: cast_value}))
+        session.commit()
+        session.close()
+        
+        return jsonify({"success": True})
+    except Exception as e:
+        session.close()
+        return jsonify({"success": False, "error": str(e)})
+
+
+@app.route("/wine/<int:wine_id>/delete", methods=["GET", "POST"]) 
+def delete_wine(wine_id):
+    session = SessionLocal()
+    wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
+    
+    if not wine:
+        session.close()
+        return abort(404, description="Wine not found")
+    
+    if request.method == "POST":
+        # Delete the wine
+        session.execute(user_wine.delete().where(user_wine.c.id == wine_id))
+        session.commit()
+        session.close()
+        
+        # Redirect to the appropriate list based on expired status
+        if wine.expired == 0:
+            return redirect(url_for('my_cellar'))
+        else:
+            return redirect(url_for('experienced_wines'))
+    
+    # GET request - show confirmation page
+    session.close()
+    return render_template("delete_confirm.html", wine=wine)
