@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit {{ wine.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="layout">
+        <div class="topbar">
+            <a class="back-btn" href="{{ url_for('wine_detail', wine_id=wine.id) }}" aria-label="Back">←</a>
+            <button class="menu-toggle" id="menuToggle">≡</button>
+            <h1>Edit {{ wine.name }}</h1>
+        </div>
+        <aside class="sidebar" id="sidebar">
+            <a class="nav-btn" href="{{ url_for('my_cellar') }}">My Cellar</a>
+            <a class="nav-btn" href="{{ url_for('experienced_wines') }}">Experienced Wines</a>
+            <a class="nav-btn" href="{{ url_for('analytics') }}">Analytics</a>
+            <a class="nav-btn" href="{{ url_for('map_page') }}">Map</a>
+        </aside>
+        <main class="content">
+            <div class="form-container">
+                <form method="POST" class="edit-form">
+                    {% for col in columns %}
+                        <div class="form-group">
+                            <label for="{{ col }}">{{ col|replace('_', ' ')|title }}:</label>
+                            <input type="text" 
+                                   id="{{ col }}" 
+                                   name="{{ col }}" 
+                                   value="{{ wine[col] if wine[col] is not none else '' }}"
+                                   {% if not column_meta_by_name.get(col, {}).get('nullable', True) %}required{% endif %}>
+                        </div>
+                    {% endfor %}
+                    <div class="form-actions">
+                        <a href="{{ url_for('wine_detail', wine_id=wine.id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Update Wine</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
