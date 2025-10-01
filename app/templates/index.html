@@ -1,37 +1,23 @@
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formatted Form Example</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
+    <title>Dynamic Wine Entry</title>
 </head>
 <body>
-<form action="/wine_data" method="POST">
-  <label>
-    Name:
-    <input type="text" name="name" />
-  </label>
+    <h1>Enter a Wine</h1>
+    <form method="POST">
+        {% for col in columns %}
+            <label>{{ col }}:</label>
+            <input type="text" name="{{ col }}"><br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
 
-  <label>
-	Domaine:
-	<input type = "text" name="domain" />
-  </label>
-
-  <label>
-	Producer:
-	<input type = "text" name="producer" />
-  </label>
-
-  <label>
-	Vintage:
-	<input type = "number" name="vintage" />
-  </label>
-
-  <label>
-	Date bought:
-	<input type="date" name = "date_bought" />
-  </label>
-
-  <input type="submit" value="Submit" />
-  <input type="reset" value="Reset"/>
-</form>
+    <h2>Entries</h2>
+    <ul>
+        {% for row in wines %}
+            <li>{{ row }}</li>
+        {% endfor %}
+    </ul>
 </body>
+</html>

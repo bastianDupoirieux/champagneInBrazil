@@ -1,28 +1,35 @@
-
 from flask import Flask, render_template, request, redirect, url_for
-import pandas as pd
+from sqlalchemy import create_engine, MetaData, Table, inspect
+from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 
-@app.route('/')
-def form():
-    return render_template('index.html')
+# --- DB setup ---
+DATABASE_URL = "sqlite:///../db/champagneInBrazil.db"
+engine = create_engine(DATABASE_URL, echo=True, future=True)
+SessionLocal = sessionmaker(bind=engine)
 
-@app.route('/wine_data', methods=['POST'])
-def submit_form():
-    name = request.form['name']
-    domain = request.form['domain']
-    producer = request.form['producer']
-    vintage = request.form['vintage']
-    date_bought = request.form['date_bought']
+# Reflect existing table
+metadata = MetaData()
+user_wine = Table("user_wine", metadata, autoload_with=engine)
 
-    # Create a DataFrame and append it to a CSV file
-    df = pd.DataFrame([[name, domain, producer, vintage, date_bought]],
-                      columns=['Name', 'Domaine', 'Producer', 'Vintage', 'Date Bought'])
-    df.to_csv('wine_data.csv', mode='a', header=not pd.io.common.file_exists('wine_data.csv'), index=False)
-
-    return redirect(url_for('form'))
+# Use Inspector to get column info
+inspector = inspect(engine)
+columns = [col["name"] for col in inspector.get_columns("user_wine") if col["name"] != "id"]
 
 
-if __name__ == '__main__':
-    app.run(debug = True)
+@app.route("/", methods=["GET", "POST"])
+def index():
+    session = SessionLocal()
+
+    if request.method == "POST":
+        # Build insert dict dynamically from form values
+        data = {col: request.form[col] for col in columns}
+        session.execute(user_wine.insert().values(**data))
+        session.commit()
+        return redirect(url_for("index"))
+
+    wines = session.execute(user_wine.select()).fetchall()
+    session.close()
+
+    return render_template("index.html", columns=columns, wines=wines)
