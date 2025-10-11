@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # --- DB setup ---
 DATABASE_URL = "sqlite:///../db/champagneInBrazil.db"
-engine = create_engine(DATABASE_URL, echo=True, future=True)
+engine = create_engine(DATABASE_URL, future=True)
 SessionLocal = sessionmaker(bind=engine)
 
 # Reflect existing table
@@ -138,7 +138,7 @@ def wine_detail(wine_id):
 def edit_wine(wine_id):
     session = SessionLocal()
     wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
-    
+
     if not wine:
         session.close()
         return abort(404, description="Wine not found")
@@ -231,3 +231,12 @@ def delete_wine(wine_id):
     # GET request - show confirmation page
     session.close()
     return render_template("delete_confirm.html", wine=wine)
+
+@app.route("/wine/<int:wine_id>/json")
+def wine_json(wine_id):
+    session = SessionLocal()
+    wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
+    session.close()
+    if not wine:
+        return abort(404)
+    return dict(wine._mapping)  # convert SQLAlchemy Row to dict
