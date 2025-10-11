@@ -30,16 +30,14 @@
                 
                 <div class="wine-details-grid">
                     {% for col in columns %}
-                        {% if col != 'expired' %}
-                            <div class="detail-item" data-field="{{ col }}">
-                                <label>{{ col|replace('_', ' ')|title }}:</label>
-                                <div class="field-container">
-                                    <span class="field-value">{{ wine[col] if wine[col] is not none else '' }}</span>
-                                    <input type="text" class="field-input" value="{{ wine[col] if wine[col] is not none else '' }}" style="display: none;">
-                                    <button class="edit-field-btn" data-field="{{ col }}">✏️</button>
-                                </div>
+                        <div class="detail-item" data-field="{{ col }}">
+                            <label>{{ col|replace('_', ' ')|title }}:</label>
+                            <div class="field-container">
+                                <span class="field-value">{{ wine[col] if wine[col] is not none else '' }}</span>
+                                <input type="text" class="field-input" value="{{ wine[col] if wine[col] is not none else '' }}" style="display: none;">
+                                <button class="edit-field-btn" data-field="{{ col }}">✏️</button>
                             </div>
-                        {% endif %}
+                        </div>
                     {% endfor %}
                 </div>
                 
