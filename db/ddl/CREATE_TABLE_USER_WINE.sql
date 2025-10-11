@@ -10,6 +10,7 @@ region text, --Region the wine is from
 country text,
 appellation text, --appellation if applicable (especially for old world wines)
 vintage integer, --vintage, must be nullable for cases like Champagne
+quantity integer not null,
 grape_varieties text,
 date_bought text, --Date the wine was bought on
 buying_price real, --Price the wine was bought at
