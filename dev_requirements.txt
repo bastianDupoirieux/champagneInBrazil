@@ -1,0 +1,14 @@
+I'm looking to build an app to save the wines I have: It should be built in the following way:
+
+1. The collapsible sidebar should not create any conflicts with the header. The header should move to the side when the sidebar is opened.
+7. in the "my cellar" and "experienced wines" page, there should be a button to open a dropdown menu with options "view wine", "edit wine", and "delete wine".
+8. In the "my cellar" and "experienced wines" page, there should be a large gray ">" button to go to the wine details page.
+9. The editable text field in the wine detail page should have a black border and white background.
+10. The button to edit the text field should be included in the field, and should be on the right side of the field. It should be a minimalistic pencil icon in light gray on a darker gray background.
+11. When starting to edit a field in the wine detail page, clicking somewhere else on the page should discard the edited values and the initial value should be shown again.
+12. There should be an extra button for quantity of bottles. This should be incrementable directly from the "experienced wines" or "my cellar" page, or be changed in the detailed page. Changes should be reflected in the table USER_WINE.
+13. The fields in the entry form and the wine detail page should have a type enforcement built-in.
+14. The technical "expired" field shuould be called "Have you drank that wine?" and should be a yes/no field. The transformation should happen afterwards.
+15. The non header part of the page should not be hidden by the collapsible sidebar when it is opened
+16. Add a search options to look for wines by their name
+17. Add a filtering option to filter the wines shown
