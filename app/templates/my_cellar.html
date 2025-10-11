@@ -25,6 +25,7 @@
                             {{ row.name }}{% if row.producer %} - {{ row.producer }}{% endif %}{% if row.vintage %} ({{ row.vintage }}){% endif %}
                         </span>
                         <div class="wine-actions">
+                            <button class="go-to-wine-details" onclick="window.location.href='{{ url_for('wine_detail', wine_id=row.id) }}'">></button>
                             <button class="dropdown-toggle" data-wine-id="{{ row.id }}">⋮</button>
                             <div class="dropdown-menu" id="dropdown-{{ row.id }}" style="display: none;">
                                 <a href="{{ url_for('wine_detail', wine_id=row.id) }}">View Wine</a>
