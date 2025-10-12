@@ -311,34 +311,61 @@ input[type="reset"].hover {
 .field-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding-left: 6px;
+    /*padding: 6px 10px;*/
+    width: fit-content;
+    min-width: 200px;
+    transition: border-color 0.2s, box-shadow 0.2s; 
+    overflow: hidden;
+    min-height: 30px;
+    height:fit-content;
+}
+
+.field-container:focus-within {
+    border-color: #007BFF; /* soft blue border */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
 .field-value {
     flex: 1;
+    color: #000;
+    font-size: 14px;
 }
 
 .field-input {
     flex: 1;
-    padding: 4px 8px;
-    border: 2px solid #4CAF50 !important;
-    border-radius: 4px;
-    font-size: 16px;
-    background: #fff !important;
-    box-shadow: 0 0 0 1px #4CAF50;
+    border: none;
+    outline: none;
+    padding: 6px 10px;
+    background-color: white;
+    font-size: 14px;
+    color: #000;
 }
 
 .edit-field-btn {
-    background: none;
+    background-color: #f0f0f0;
     border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 4px;
+    border-left: 1px solid #bbb;
+    color: #666;
     border-radius: 4px;
+    padding: 0px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .edit-field-btn:hover {
-    background-color: #f0f0f0;
+    background-color: #e0e0e0;
+    color: #333;
 }
 
 .detail-item label {
