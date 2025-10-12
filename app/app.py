@@ -240,3 +240,31 @@ def wine_json(wine_id):
     if not wine:
         return abort(404)
     return dict(wine._mapping)  # convert SQLAlchemy Row to dict
+
+@app.route("/update_quantity/<int:wine_id>", methods=["POST"])
+def update_wine_quantity(wine_id):
+    session = SessionLocal()
+
+    wine = session.execute(user_wine.select().where(user_wine.c.id == wine_id)).fetchone()
+    if not wine:
+        session.close()
+        return abort(404, description="Wine not found")
+
+    data = request.get_json()
+    new_quantity = data.get('quantity')
+    try:
+        new_quantity = int(new_quantity)
+        if new_quantity < 0:
+            new_quantity = 0
+    except (ValueError, TypeError):
+        session.close()
+        return jsonify(success=False, message="Invalid quantity"), 400
+    if new_quantity is None:
+        return jsonify(success=False), 400
+
+    # Update the wine quantity
+    session.execute(user_wine.update().where(user_wine.c.id == wine_id).values(quantity=new_quantity))
+    session.commit()
+    session.close()
+
+    return jsonify(success=True, quantity = new_quantity)

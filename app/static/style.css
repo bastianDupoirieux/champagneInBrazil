@@ -550,3 +550,23 @@ input[type="reset"].hover {
     font-size: 22px;
     color: #666;
 }
+.wine-quantity {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+
+.qty-input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0 4px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 22px;
+    color: #666;
+}
