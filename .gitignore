@@ -306,3 +306,14 @@ http-client.private.env.json
 
 #Ignore database files
 *.db
+
+#Ignore data files
+*.xlsx
+*.csv
+*.json
+*.parquet
+*.pq
+
+#Ignore text and pdf files
+*.docx
+*.pdfg
