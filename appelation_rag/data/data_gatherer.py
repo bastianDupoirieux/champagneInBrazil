@@ -8,7 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-def _fetch_inao_cdc(driver:webdriver, appellation:str):
+def _fetch_inao_cdc(driver:webdriver, appellation:str, loading_time = 30, max_tries_to_find_correct_page = 3):
     """
     Private method to download the pdf rulebook for a named appellation off the INAO appellation research page.
     Super redneck engineered, uses a lot of sleep times to map the exact clicking path to download the pdf rulebook.
@@ -19,9 +19,9 @@ def _fetch_inao_cdc(driver:webdriver, appellation:str):
     :param appellation: the administrative name of the INAO appellation, passed as a string
     :return:
     """
-
+    tries_to_find_correct_page = 1
     #Click track starts on the research page of the INAO website, allowing to search for specific appellations
-    wait = WebDriverWait(driver, 60)
+    wait = WebDriverWait(driver, loading_time)
 
     #Click on the search bar and enter the appellation name to search for details
     search_bar = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="edit-search-api-fulltext--2"]')))
@@ -30,33 +30,45 @@ def _fetch_inao_cdc(driver:webdriver, appellation:str):
     search_bar.send_keys(Keys.ENTER)
 
     #When finding the search results, a list of possible appellation rulebooks are clickable.
-    #BIG HYPOTHESIS: since we use the exact administrative name of the appellation, the first result will also be the correct one.
-    #Clicks on the first results given by the search
-    wait = WebDriverWait(driver, 60)
-    result_element=wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"block-views-block-products-search-block-1\"]/div/div/div[3]/div[1]/article/div[1]")))
-    result_element.click()
-    time.sleep(5)
+    #Tries different results multiple times if the given element doesn't work
+    while tries_to_find_correct_page <= max_tries_to_find_correct_page:
+        wait = WebDriverWait(driver, loading_time)
+
+        result_element=wait.until(EC.element_to_be_clickable((By.XPATH, f"//*[@id=\"block-views-block-products-search-block-1\"]/div/div/div[3]/div[{tries_to_find_correct_page}]/article/div[1]")))
+        result_element.click()
+        time.sleep(5)
 
     #When entering the details page about the appellation, one can open a menu to get to the rulebook.
     # Clicks the button to open this menu
-    wait=WebDriverWait(driver, 60)
-    button_to_open_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"block-inao-content\"]/article/div/div[4]/div/section[1]/h3/button")))
-    button_to_open_cdc.click()
-    time.sleep(5)
+        wait=WebDriverWait(driver, loading_time)
+        button_to_open_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"block-inao-content\"]/article/div/div[4]/div/section[1]/h3/button")))
+        button_to_open_cdc.click()
+        time.sleep(5)
 
     #Once the menu is opened, another button must be clicked to find the details of the appellation rulebook.
     # Clicks on this button
-    wait = WebDriverWait(driver, 60)
-    acceder_au_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"accordion-cdc\"]/div/div/button")))
-    acceder_au_cdc.click()
-    time.sleep(5)
+        wait = WebDriverWait(driver, loading_time)
+        acceder_au_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"accordion-cdc\"]/div/div/button")))
+        acceder_au_cdc.click()
+        time.sleep(5)
 
     #When the details of the appellation rulebook are available, one can click on a link to download the rulebook
     # Click on this button
-    wait = WebDriverWait(driver, 60)
-    download_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"modal-1-cdc\"]/div/div/div[2]/div/article/div[2]/div/a")))
-    download_cdc.click()
-    time.sleep(5)
+    #wait = WebDriverWait(driver, loading_time)
+        cdc_download_xpath = "//*[@id=\"modal-1-cdc\"]/div/div/div[2]/div/article/div[2]/div/a"
+        #download_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"modal-1-cdc\"]/div/div/div[2]/div/article/div[2]/div/a")))
+        try:
+            download_cdc = driver.find_element(By.XPATH, cdc_download_xpath)
+            download_cdc.click()
+            break
+        except:
+            close_page_xpath = '//*[@id="modal-1-cdc"]/div/div/div[3]/button'
+            close_page = driver.find_element(By.XPATH, close_page_xpath)
+            close_page.click()
+            back_button_xpath = '/html/body/div[1]/div/main/div/div[2]/div/button[1]'
+            back_button = driver.find_element(By.XPATH, back_button_xpath)
+            back_button.click()
+            tries_to_find_correct_page = tries_to_find_correct_page + 1
 
 
 def get_multiple_search_results(driver:webdriver, appellation_list:list, homepage='https://www.inao.gouv.fr/rechercher-un-produit'):
