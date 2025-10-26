@@ -28,6 +28,7 @@ def _fetch_inao_cdc(driver:webdriver, appellation:str, loading_time = 30, max_tr
     #search_bar = driver.find_element(By.XPATH, '//*[@id="sb_form_q"]')
     search_bar.send_keys(appellation)
     search_bar.send_keys(Keys.ENTER)
+    time.sleep(5)
 
     #When finding the search results, a list of possible appellation rulebooks are clickable.
     #Tries different results multiple times if the given element doesn't work
@@ -36,21 +37,28 @@ def _fetch_inao_cdc(driver:webdriver, appellation:str, loading_time = 30, max_tr
 
         result_element=wait.until(EC.element_to_be_clickable((By.XPATH, f"//*[@id=\"block-views-block-products-search-block-1\"]/div/div/div[3]/div[{tries_to_find_correct_page}]/article/div[1]")))
         result_element.click()
-        time.sleep(5)
+        time.sleep(2.5)
 
     #When entering the details page about the appellation, one can open a menu to get to the rulebook.
     # Clicks the button to open this menu
         wait=WebDriverWait(driver, loading_time)
         button_to_open_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"block-inao-content\"]/article/div/div[4]/div/section[1]/h3/button")))
         button_to_open_cdc.click()
-        time.sleep(5)
+        time.sleep(2.5)
 
     #Once the menu is opened, another button must be clicked to find the details of the appellation rulebook.
     # Clicks on this button
         wait = WebDriverWait(driver, loading_time)
-        acceder_au_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"accordion-cdc\"]/div/div/button")))
-        acceder_au_cdc.click()
-        time.sleep(5)
+        try:
+            acceder_au_cdc = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"accordion-cdc\"]/div/div/button")))
+            acceder_au_cdc.click()
+        except:
+            back_button_xpath = '/html/body/div[1]/div/main/div/div[2]/div/button[1]'
+            back_button = driver.find_element(By.XPATH, back_button_xpath)
+            back_button.click()
+            time.sleep(2.5)
+            tries_to_find_correct_page = tries_to_find_correct_page + 1
+        time.sleep(2.5)
 
     #When the details of the appellation rulebook are available, one can click on a link to download the rulebook
     # Click on this button
@@ -65,9 +73,11 @@ def _fetch_inao_cdc(driver:webdriver, appellation:str, loading_time = 30, max_tr
             close_page_xpath = '//*[@id="modal-1-cdc"]/div/div/div[3]/button'
             close_page = driver.find_element(By.XPATH, close_page_xpath)
             close_page.click()
+            time.sleep(2.5)
             back_button_xpath = '/html/body/div[1]/div/main/div/div[2]/div/button[1]'
             back_button = driver.find_element(By.XPATH, back_button_xpath)
             back_button.click()
+            time.sleep(2.5)
             tries_to_find_correct_page = tries_to_find_correct_page + 1
 
 
