@@ -5,13 +5,13 @@ import time
 
 #Define run options here
 beverage_type = 'Vin'
-region = 'Alsace et Est'
+region = 'Cognac'
 
 with open('config.yml', 'r') as stream:
     config = yaml.safe_load(stream)
 
 
-def main(beverage_type, region, max_tries = 5):
+def main(beverage_type, region, max_tries = 2):
 
 
     appellations = pdf_reader.read_pdf_table(config['appellation_list_file'])
