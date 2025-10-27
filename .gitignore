@@ -316,4 +316,10 @@ http-client.private.env.json
 
 #Ignore text and pdf files
 *.docx
-*.pdfg
+*.pdf
+
+#Track the list of all appellations for easier
+!appelation_rag/data/Liste-AOC-vins.pdf
+
+#Ignore executable files for selenium webdriver
+*.exe
