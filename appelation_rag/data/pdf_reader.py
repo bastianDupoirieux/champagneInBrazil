@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import tabula
+import pymupdf
+import pymupdf4llm
 
 def read_pdf_table(file_path:os.path)->pd.DataFrame:
     """
@@ -12,3 +14,5 @@ def read_pdf_table(file_path:os.path)->pd.DataFrame:
     table = pd.concat(table_doc)
     return table
 
+def read_pdf_document(pdf_file):
+    return pymupdf4llm.to_markdown(pdf_file)
