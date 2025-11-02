@@ -70,6 +70,19 @@ class MarkdownTextUtils:
         text_without_deleted = re.sub(pattern, "", self.md_text)
         return text_without_deleted
 
-    def separate_text_by_titles(self):
+    def separate_text_by_titles(self)->list:
         """In case the document contains multiplte rulebooks, separate it into different strings to handle each rulebook separately
+        Returns a list of Markdown strings equivalent to a single rulebook
         """
+        result = []
+        pattern = r"(CAHIER DES CHARGES DE L[’']APPELLATION[\s\S]*?)(?=(?:# CAHIER DES CHARGES DE L[’']APPELLATION|$))"
+
+        matches = re.findall(pattern, text)
+
+        for text in matches:
+            result.append(text)
+
+        return result
+
+
+
