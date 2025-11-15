@@ -62,10 +62,9 @@ class MarkdownTextUtils:
 
     def __init__(self, md_text):
         self.md_text = md_text
-        self.hierarchy = [ "Chapter", "Section", "Subsection"]
-        self.regex_map = {"Chapter": r"CHAPITRE\s+[IVXLCDM]+(?:\s*\[[^\]]+\])?",
-                          "Section": re.compile(r"^\*\*\s*([IVXLCDM]+)\s*-\s*(.*)$"),
-                          "Subsection": re.compile(r"^_([0-9]+)°-\s*(.*)$")}
+        self.hierarchy = ["Section", "Subsection"]
+        self.regex_map = {"Section": re.compile(r"(?m)(?=^[ \t]*(?:\*\*)?\s*[IVXLCDM]+\.\s*-\s*.+?(?:\s*\*\*)?\s*$)"),
+                          "Subsection": re.compile(r"(?m)(?=^[ \t]*_?\d+(?:°|º)\s*-\s*)")}
 
 
     def clean_up_md_text(self) -> str:
@@ -97,13 +96,19 @@ class MarkdownTextUtils:
         text_without_deleted = re.sub(pattern, "", self.md_text)
         return text_without_deleted
 
-    def _get_chapters_from_doc(self):
+    def split_text_by_hierarchy(self) -> list:
         """
-        Extracts the chapters from the documents
+        Splits a document into different sections and subsections.
+        Returns a nested array containing the subsections of each section
         :return:
         """
-        pattern = self.regex_map["Chapter"]
-        chapters = re.split(pattern, self.md_text)
+        section_pattern = self.regex_map["Section"]
+        subsection_pattern = self.regex_map["Subsection"]
 
-        return chapters[1:] #the first element is what comes before the first chapter, aka nothing of value
+        sections = re.split(section_pattern, self.md_text)
+        for i in range(0, len(sections)):
+            section = sections[i]
+            section_split_by_subsection = re.split(subsection_pattern, section)
+            sections[i] = section_split_by_subsection
 
+        return sections
