@@ -80,8 +80,8 @@ class MarkdownUtils:
         """
         text = self._remove_deleted_text()
         text = text.replace("\n", " ")
-        text = re.sub(r'(\*\*|__)(.*?)\1', r'\2', text)  # replace bold text
-        text = re.sub(r'(\*|_)(.*?)\1', r'\2', text)  # replace italics
+        text = text.replace("**", "")
+        text = text.replace("_", "")  # replace italics
 
         return text
 
@@ -91,7 +91,7 @@ class RulebookUtils:
     def __init__(self, rulebook_text):
         self.rulebook_text = rulebook_text
         self.hierarchy = ["Section", "Subsection"]
-        self.regex_map = {"Section": re.compile(r"(?m)(?=^[ \t]*(?:\*\*)?\s*[IVXLCDM]+\.\s*-\s*.+?(?:\s*\*\*)?\s*$)"),
+        self.regex_map = {"Section": r"(?m)(?=^\s*\*\*\s*[IVXLCDM]+\s*.*?-.*?\*\*\s*(?:\r?\n\s*)*)",
                           "Subsection": re.compile(r"(?m)(?=^[ \t]*_?\d+(?:°|º)\s*-\s*)")}
 
 
@@ -101,7 +101,7 @@ class RulebookUtils:
         Every rulebook of the INAO has the mention: "Cahier des charges de l'appellation d'origine contrôlée « <name_of_the_appellation> »
         :return: the title of the appellation in the text
         """
-        pattern = r"Cahier des charges de l[’']appellation d’origine contrôlée.*\s.*«\s*(.*?)\s*»"
+        pattern = r"Cahier des charges de l[’']appellation d’origine contrôlée(?:\s*\*\*)?\s*(?:.*\s*)?«\s*(.*?)\s*»"
         match = re.search(pattern, self.rulebook_text, re.IGNORECASE)
         return match.group(1)
 
