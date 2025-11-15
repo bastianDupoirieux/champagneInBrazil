@@ -58,33 +58,11 @@ class PdfReader:
         return result
 
 
-class MarkdownTextUtils:
+
+class MarkdownUtils:
 
     def __init__(self, md_text):
         self.md_text = md_text
-        self.hierarchy = ["Section", "Subsection"]
-        self.regex_map = {"Section": re.compile(r"(?m)(?=^[ \t]*(?:\*\*)?\s*[IVXLCDM]+\.\s*-\s*.+?(?:\s*\*\*)?\s*$)"),
-                          "Subsection": re.compile(r"(?m)(?=^[ \t]*_?\d+(?:°|º)\s*-\s*)")}
-
-
-    def clean_up_md_text(self) -> str:
-        """Remove separators and markdown formatters.
-        Must also remove values that should be deleted, i.e. thing between two ~~ [...] ~~ separators"""
-        pass
-
-    def get_appellation_title(self) -> str:
-        """
-        Get the name of the appellation the rulebook applies to.
-        Every rulebook of the INAO has the mention: "Cahier des charges de l'appellation d'origine contrôlée « <name_of_the_appellation> »
-        :return: the title of the appellation in the text
-        """
-        pattern = r"Cahier des charges de l[’']appellation d’origine contrôlée.*\s.*«\s*(.*?)\s*»"
-        match = re.search(pattern, self.md_text, re.IGNORECASE)
-        return match.group(1)
-
-    def extract_toc_from_md(self) -> str:
-        """extract the TOC from a certain Markdown text"""
-        pass
 
     def _remove_deleted_text(self) -> str:
         """
@@ -96,6 +74,39 @@ class MarkdownTextUtils:
         text_without_deleted = re.sub(pattern, "", self.md_text)
         return text_without_deleted
 
+    def clean_up_md_text(self) -> str:
+        """
+        Remove separators and markdown formatters.
+        """
+        text = self._remove_deleted_text()
+        text = text.replace("\n", " ")
+        text = re.sub(r'(\*\*|__)(.*?)\1', r'\2', text)  # replace bold text
+        text = re.sub(r'(\*|_)(.*?)\1', r'\2', text)  # replace italics
+
+        return text
+
+
+class RulebookUtils:
+
+    def __init__(self, rulebook_text):
+        self.rulebook_text = rulebook_text
+        self.hierarchy = ["Section", "Subsection"]
+        self.regex_map = {"Section": re.compile(r"(?m)(?=^[ \t]*(?:\*\*)?\s*[IVXLCDM]+\.\s*-\s*.+?(?:\s*\*\*)?\s*$)"),
+                          "Subsection": re.compile(r"(?m)(?=^[ \t]*_?\d+(?:°|º)\s*-\s*)")}
+
+
+    def get_appellation_title(self) -> str:
+        """
+        Get the name of the appellation the rulebook applies to.
+        Every rulebook of the INAO has the mention: "Cahier des charges de l'appellation d'origine contrôlée « <name_of_the_appellation> »
+        :return: the title of the appellation in the text
+        """
+        pattern = r"Cahier des charges de l[’']appellation d’origine contrôlée.*\s.*«\s*(.*?)\s*»"
+        match = re.search(pattern, self.rulebook_text, re.IGNORECASE)
+        return match.group(1)
+
+
+
     def split_text_by_hierarchy(self) -> list:
         """
         Splits a document into different sections and subsections.
@@ -105,7 +116,7 @@ class MarkdownTextUtils:
         section_pattern = self.regex_map["Section"]
         subsection_pattern = self.regex_map["Subsection"]
 
-        sections = re.split(section_pattern, self.md_text)
+        sections = re.split(section_pattern, self.rulebook_text)
         for i in range(0, len(sections)):
             section = sections[i]
             section_split_by_subsection = re.split(subsection_pattern, section)
