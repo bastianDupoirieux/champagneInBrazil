@@ -1,6 +1,6 @@
 import data_gatherer
 import yaml
-import pdf_reader
+from pdf_reader import PdfReader
 import time
 
 #Define run options here
@@ -13,8 +13,8 @@ with open('config.yml', 'r') as stream:
 
 def main(beverage_type, region, max_tries = 2):
 
-
-    appellations = pdf_reader.read_pdf_table(config['appellation_list_file'])
+    pdf_reader = PdfReader(config['appellation_list_file'])
+    appellations = pdf_reader.read_pdf(pdf_contents_type="table")
     appellations = appellations[appellations['Type de produits 1'] == beverage_type]
     appellations = appellations[appellations['Bassin']==region]
 
