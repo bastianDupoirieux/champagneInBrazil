@@ -34,12 +34,39 @@ class PdfReader:
     def _read_pdf_document_to_md(self):
         return pymupdf4llm.to_markdown(self.pdf_path)
 
+    def separate_multiple_books_by_title(self, doc)-> list:
+        """
+        In the case of appellation rulebooks, there can be multiple books within one pdf document.
+        Separates these rulebooks and returns each as a single element of a list
+        :param doc: the text from a pdf document
+        :return: a list containing each separate rulebook from a pdf document
+        """
+        result = []
+        # Regex pattern to match each complete document section
+        pattern = (r"(Cahier des charges de l[’']appellation d[’']origine contrôlée"  # header line
+                    r"(?:.*?«.*?»)?"               # same-line appellation (optional)
+                    r"(?:\s*«.*?»)?"               # next-line appellation (optional)
+                    r"[\s\S]*?)"                   # capture body text
+                    r"(?=(?:Cahier des charges de l[’']appellation d[’']origine contrôlée|$))"
+                    )
+
+        matches = re.findall(pattern, doc)
+
+        for text in matches:
+            result.append(text)
+
+        return result
 
 
 class MarkdownTextUtils:
 
     def __init__(self, md_text):
         self.md_text = md_text
+        self.hierarchy = [ "Chapter", "Section", "Subsection"]
+        self.regex_map = {"Chapter": r"CHAPITRE\s+[IVXLCDM]+(?:\s*\[[^\]]+\])?",
+                          "Section": re.compile(r"^\*\*\s*([IVXLCDM]+)\s*-\s*(.*)$"),
+                          "Subsection": re.compile(r"^_([0-9]+)°-\s*(.*)$")}
+
 
     def clean_up_md_text(self) -> str:
         """Remove separators and markdown formatters.
@@ -70,19 +97,13 @@ class MarkdownTextUtils:
         text_without_deleted = re.sub(pattern, "", self.md_text)
         return text_without_deleted
 
-    def separate_text_by_titles(self)->list:
-        """In case the document contains multiplte rulebooks, separate it into different strings to handle each rulebook separately
-        Returns a list of Markdown strings equivalent to a single rulebook
+    def _get_chapters_from_doc(self):
         """
-        result = []
-        pattern = r"(CAHIER DES CHARGES DE L[’']APPELLATION[\s\S]*?)(?=(?:# CAHIER DES CHARGES DE L[’']APPELLATION|$))"
+        Extracts the chapters from the documents
+        :return:
+        """
+        pattern = self.regex_map["Chapter"]
+        chapters = re.split(pattern, self.md_text)
 
-        matches = re.findall(pattern, text)
-
-        for text in matches:
-            result.append(text)
-
-        return result
-
-
+        return chapters[1:] #the first element is what comes before the first chapter, aka nothing of value
 
