@@ -107,7 +107,7 @@ class RulebookUtils:
 
 
 
-    def split_text_by_hierarchy(self) -> list:
+    def _split_text_by_hierarchy(self) -> list:
         """
         Splits a document into different sections and subsections.
         Returns a nested array containing the subsections of each section
@@ -123,3 +123,28 @@ class RulebookUtils:
             sections[i] = section_split_by_subsection
 
         return sections
+
+    def doc_split(self):
+        """
+
+        :return:
+        """
+        cleaned_sections = []
+        sections = self._split_text_by_hierarchy()
+
+        for section in sections:
+            # Clean each subsection and keep only if length > 1
+            cleaned_subsections = []
+            for subsection in section:
+                md_utils = MarkdownUtils(subsection)
+                cleaned_text = md_utils.clean_up_md_text()
+                if len(cleaned_text) > 1:  # keep only if length > 1
+                    cleaned_subsections.append(cleaned_text)
+
+            # Keep the section only if it has any non-empty subsections
+            if cleaned_subsections:
+                cleaned_sections.append(cleaned_subsections)
+
+        #sections = cleaned_sections
+
+        return cleaned_sections
