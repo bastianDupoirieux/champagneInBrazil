@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import tabula
-import pymupdf
 import pymupdf4llm
 import re
 
