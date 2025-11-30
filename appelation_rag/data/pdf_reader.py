@@ -5,7 +5,7 @@ import pymupdf4llm
 import re
 
 
-def prepare_text_from_pdf_file(file:os.path)->dict:
+def prepare_text_from_pdf_file(file:os.path)->dict: #This function might not be at the right place here
     """
     Prepares a PDF file by combining all functions from the classes to be ready for tokenizing
     :param file:
