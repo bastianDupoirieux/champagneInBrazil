@@ -4,6 +4,43 @@ import tabula
 import pymupdf4llm
 import re
 
+
+def prepare_text_from_pdf_file(file:os.path)->dict: #This function might not be at the right place here
+    """
+    Prepares a PDF file by combining all functions from the classes to be ready for tokenizing
+    :param file:
+    :return:
+    """
+    print(f"reading file {file}")
+    pdf_reader = PdfReader(file)
+    doc = pdf_reader.read_pdf("text")
+    books = pdf_reader.separate_multiple_books_by_title(doc)
+
+    if len(books) == 0: #Problem with the title, the books can't be separated. Consider it one giant rulebook
+        books = [doc]
+
+    result_dict = {}
+
+    for book in books:
+        rulebook_utils = RulebookUtils(book)
+        try:
+            title = rulebook_utils.get_appellation_title()
+
+        except: #If the title can't be read
+            print(f"Title from book {book[:200]} in file {file} could not be read, please input manually")
+            title = input("Title from book: ")
+
+        print(f"Preparing data for appellation {title}")
+
+        if title not in result_dict.keys():
+            split_book = rulebook_utils.doc_split()
+            result_dict[title] = split_book
+        else:
+            pass
+
+    return result_dict
+
+
 class PdfReader:
 
     def __init__(self, pdf_path:os.path):
