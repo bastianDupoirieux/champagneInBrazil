@@ -1,4 +1,4 @@
-from appelation_rag.data.pdf_reader import prepare_text_from_pdf_file
+from setup.data.pdf_reader import prepare_text_from_pdf_file
 from transformers import AutoTokenizer
 import os
 

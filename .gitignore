@@ -323,3 +323,6 @@ http-client.private.env.json
 
 #Ignore executable files for selenium webdriver
 *.exe
+
+#Ignore .idea folder
+.idea
