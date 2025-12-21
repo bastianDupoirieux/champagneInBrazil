@@ -1,6 +1,6 @@
 import data_gatherer
 import yaml
-from pdf_reader import PdfReader
+from setup.utils.pdf_reader import PdfReader
 import time
 
 #Define run options here
