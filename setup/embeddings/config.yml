@@ -1,0 +1,4 @@
+#Config for the embeddings
+tokenizer: "jhu-clsp/mmBERT-small"
+model: "jhu-clsp/mmBERT-small"
+max_tokens: 8192
