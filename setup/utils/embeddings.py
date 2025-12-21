@@ -1,5 +1,7 @@
 import transformers
 from transformers import AutoTokenizer, AutoModel
+import torch
+import torch.nn.functional as F
 
 def get_token_num(inputs:transformers.tokenization_utils_base.BatchEncoding)->int:
     """
@@ -9,21 +11,24 @@ def get_token_num(inputs:transformers.tokenization_utils_base.BatchEncoding)->in
     """
     return len(inputs.encodings[0].ids)
 
-def tokenize_text(text:str, tokenizer_name):
+def tokenize_text(text:str, tokenizer_name:str, max_length:int):
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
-    inputs = tokenizer(text, return_tensors="pt")
+    inputs = tokenizer(text, return_tensors="pt", max_length=max_length, truncation=False)
     return inputs
 
-def embeddings(tokenized_inputs:transformers.tokenization_utils_base.BatchEncoding, model_name):
+def compute_embeddings(tokenized_inputs:transformers.tokenization_utils_base.BatchEncoding, model_name):
     model = AutoModel.from_pretrained(model_name)
-    outputs = model(**tokenized_inputs)
-    return outputs
+    with torch.no_grad():
+        outputs = model(**tokenized_inputs) #For now no average poolings
+    embeddings = outputs.last_hidden_state
+    return embeddings
 
-def split_text(text, max_length) -> list:
-    i = 0
-    split_text_list = []
-    while i*max_length < len(text):
-        split_text_list.append(text[i*max_length:(i+1)*max_length])
 
-    return split_text_list
+def generate_embeddings(text:str, tokenizer_name:str, model_name:str, max_length:int):
+    inputs = tokenize_text(text, tokenizer_name, max_length)
+    embeddings = compute_embeddings(inputs, model_name)
 
+    #normalise embeddings
+    embeddings = F.normalize(embeddings, p=2, dim=1)
+
+    return embeddings.numpy().tolist()[0]
