@@ -4,3 +4,4 @@ model: "jhu-clsp/mmBERT-small"
 max_tokens: 8192
 collection_name: "appellation_vector_db"
 docs_folder: "setup/data/cdc_inao"
+hf_timeout: 300
