@@ -1,52 +1,43 @@
-from setup.data.pdf_reader import prepare_text_from_pdf_file
-from transformers import AutoTokenizer
+import yaml
+from setup.embeddings import appellation_documents
+from setup.utils.embeddings import generate_embeddings
+from chromadb import EmbeddingFunction, Embeddings, Documents, Client
 import os
+from dotenv import load_dotenv
+import time
 
-#Entrypoint: a dictionary per appellation containing the different elements from the rulebook
-# For every appellation, I want to tokenise and chunk the document before calculating vector embeddings
-# Step 1. Tokenise text
-# Step 2. Rechunk the text if necessary (aka more than the token limit set)
-# Step 3. Calculate the embeddings
+load_dotenv()
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-def embeddings_entrypoint(appellation_dict:dict, tokenizer:str, max_tokens:int): #This function might not be at the right place here
-    """
+print(os.path.dirname(os.path.abspath(__file__)))
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.yml'), 'r') as stream:
+    config = yaml.safe_load(stream)
 
-    :param appellation_dict:
-    :param tokenizer:
-    :return:
-    """
-    embeddings_dict = {}
-    for appellation in appellation_dict.keys():
-        if appellation not in appellation_dict.keys():
-            prechunked_rulebook = appellation_dict[appellation]
-            for section in prechunked_rulebook:
-                for subsection in section:
-                    text = appellation + subsection
-                    embeddings_utils = EmbeddingsUtils(text)
-                    tokenised_text = embeddings_utils.tokenise_text(tokenizer)
-                    if len(tokenised_text) > max_tokens:
-                        rechunked_text = embeddings_utils.rechunk_text()
-                    else:
-                        pass
-                    embeddings = embeddings_utils.compute_embeddings()
-            embeddings_dict[appellation] = embeddings
-        else:
-            pass
-    return embeddings_dict
+tokenizer_name = config['tokenizer']
+model_name = config['model']
+max_tokens = config["max_tokens"]
+docs_folder = config["docs_folder"]
+hf_timeout = config["hf_timeout"]
+
+class MultilingualEmbeddingsForAppellations(EmbeddingFunction):
+    def __call__(self, texts: Documents) -> Embeddings:
+        return list(map(lambda doc: generate_embeddings(doc, tokenizer_name, model_name, max_tokens, HF_TOKEN), texts))
 
 
+def main():
+    chroma_client = Client()
+    collection = chroma_client.get_or_create_collection(name=config["collection_name"],
+                                                        embedding_function = MultilingualEmbeddingsForAppellations())
 
-class EmbeddingsUtils:
+    docs_dict = appellation_documents.main(docs_folder, max_tokens)
 
-    def __init__(self, text, max_tokens):
-        self.text = text
-        self.max_tokens = max_tokens
+    docs_sublists = [docs_dict["documents"][i:i+1000] for i in range(0, len(docs_dict["documents"]), 1000)]
+    docs_ids_sublists = [docs_dict["documents_ids"][i:i+1000] for i in range(0, len(docs_dict["documents_ids"]), 1000)]
 
-    def tokenise_text(self, tokeniser):
-        pass
+    for i in range(0, len(docs_sublists)): #Due to HF free tier, only 1000 requests can be made every 5 minutes.
+        # Divide the list into sublists of length 1000 to not run into a timeout error
+        docs = docs_sublists[i]
+        docs_ids = docs_ids_sublists[i]
+        collection.add(documents=docs, ids=docs_ids)
+        time.sleep(hf_timeout) # 5 minute break between all documents due to limitation from huggingface free tier
 
-    def rechunk_text(self):
-        pass
-
-    def compute_embeddings(self):
-        pass

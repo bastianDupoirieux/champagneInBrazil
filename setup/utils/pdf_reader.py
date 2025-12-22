@@ -28,7 +28,7 @@ def prepare_text_from_pdf_file(file:os.path)->dict: #This function might not be 
 
         except: #If the title can't be read
             print(f"Title from book {book[:200]} in file {file} could not be read, please input manually")
-            title = input("Title from book: ")
+            title = input("Title from book: ").upper()
 
         print(f"Preparing data for appellation {title}")
 
