@@ -3,6 +3,10 @@ from setup.embeddings import appellation_documents
 from setup.utils.embeddings import generate_embeddings
 from chromadb import EmbeddingFunction, Embeddings, Documents, Client
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 print(os.path.dirname(os.path.abspath(__file__)))
 with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.yml'), 'r') as stream:
@@ -15,7 +19,7 @@ docs_folder = config["docs_folder"]
 
 class MultilingualEmbeddingsForAppellations(EmbeddingFunction):
     def __call__(self, texts: Documents) -> Embeddings:
-        return list(map(lambda doc: generate_embeddings(doc, tokenizer_name, model_name, max_tokens), texts))
+        return list(map(lambda doc: generate_embeddings(doc, tokenizer_name, model_name, max_tokens, HF_TOKEN), texts))
 
 
 def main():
@@ -27,3 +31,4 @@ def main():
 
     collection.add(documents = docs_dict["documents"], ids = docs_dict["documents_ids"])
 
+main()
