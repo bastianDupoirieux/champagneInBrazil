@@ -1,0 +1,1 @@
+#Contains the endpoints to the analytics page and the "map" subpage
