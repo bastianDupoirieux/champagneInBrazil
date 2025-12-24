@@ -15,4 +15,5 @@ class Wines(SQLModel, table=True):
     colour: str = Field(description="Colour of the wine, red, white, rosé, orange")
     vintage: Optional[int] = Field(description="Vintage of wine production")
     grape_varieties: Optional[list[str]] = Field(description="List of grape varieties the wine is made of")
+    notes: Optional[str] = Field(description="Notes of the wine", default=None)
 
