@@ -1,0 +1,13 @@
+[project]
+name = "champagneInBrazil-backend"
+version = "0.1.0"
+description = "Backend of the cellar management app champagneInBrazil"
+readme = "README.md"
+authors = {name = "Bastian Dupoirieux"}
+requires-python = ">= 3.11"
+dependencies = [
+    "fastapi>=0.127.0",
+    "pydantic>=2.12.5",
+    "SQLAlchemy>=2.0.43",
+    "sqlmodel>=0.0.29",
+]
