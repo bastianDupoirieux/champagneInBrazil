@@ -1,6 +1,7 @@
 from typing import Optional
 import uuid
-from sqlmodel import Field, Column, JSON, SQLModel
+from sqlmodel import Field, Column, JSON, SQLModel, Relationship
+from models.sql.fact_wine import FactWine
 
 class Wine(SQLModel, table=True):
     __tablename__ = "wine"
@@ -15,8 +16,12 @@ class Wine(SQLModel, table=True):
     vintage: Optional[int] = Field(description="Vintage of wine production")
     grape_varieties: Optional[list[str]] = Field(description="List of grape varieties the wine is made of")
     notes: Optional[str] = Field(description="Notes of the wine", default=None)
+    in_cellar: Optional[bool] = Field(description="Value indicating if the wine has been bought and is in the cellar")
+    has_been_drunk: Optional[bool] = Field(description="Value indicating if the wine has been drank already")
 
-    def get_new_wine(self):
+    facts: list["FactWine"] = Relationship(back_populates="fact_wine")
+
+    def get_wine(self):
         return Wine(
             id = uuid.uuid4(),
             name = self.name,
@@ -28,4 +33,6 @@ class Wine(SQLModel, table=True):
             vintage = self.vintage,
             grape_varieties = self.grape_varieties,
             notes = self.notes,
+            in_cellar = self.in_cellar,
+            has_been_drunk = self.has_been_drunk,
         )
