@@ -17,7 +17,7 @@ async def get_wines_in_cellar(sql_session: AsyncSession):
 
 
 @OVERVIEW_ROUTER.get("/experienced_wines")
-async def get_wines_not_in_cellar(sql_session: AsyncSession)
+async def get_wines_not_in_cellar(sql_session: AsyncSession):
     statement = select(Wine).where(Wine.has_been_drunk.is_(True))
     wines = await sql_session.execute(statement)
 
