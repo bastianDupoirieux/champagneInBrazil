@@ -1,7 +1,8 @@
 from typing import Optional
 import uuid
+import datetime
+
 from sqlmodel import Field, Column, JSON, SQLModel, Relationship
-from models.sql.fact_wine import FactWine
 
 class Wine(SQLModel, table=True):
     __tablename__ = "wine"
@@ -18,8 +19,11 @@ class Wine(SQLModel, table=True):
     notes: Optional[str] = Field(description="Notes of the wine", default=None)
     in_cellar: Optional[bool] = Field(description="Value indicating if the wine has been bought and is in the cellar")
     has_been_drunk: Optional[bool] = Field(description="Value indicating if the wine has been drank already")
+    date_bought: Optional[datetime.date] = Field(description="Date the wine has been bought on", default = datetime.date.today())
+    price_bought: Optional[float] = Field(description="Price the wine has been bought at")
+    quantity: Optional[int] = Field(description="Quantity of bottles in the cellar", default=1)
 
-    facts: list["FactWine"] = Relationship(back_populates="fact_wine")
+
 
     def get_wine(self):
         return Wine(
@@ -35,4 +39,7 @@ class Wine(SQLModel, table=True):
             notes = self.notes,
             in_cellar = self.in_cellar,
             has_been_drunk = self.has_been_drunk,
+            date_bought = self.date_bought,
+            price_bought = self.price_bought,
+            quantity = self.quantity,
         )
