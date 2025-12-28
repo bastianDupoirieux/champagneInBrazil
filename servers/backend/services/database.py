@@ -11,9 +11,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlmodel import SQLModel
 
 from models.sql.key_value import KeyValueModel
-from models.sql.fact_wine import FactWine
 from models.sql.wine import Wine
-from models.sql.wine_status import WineStatus
 from utils.db_utils import get_database_url_and_connect_args
 from utils.get_env import get_database_url_env
 
@@ -35,9 +33,7 @@ async def create_db_and_tables():
                 sync_conn,
                 tables = [
                     KeyValueModel.__table__,
-                    FactWine.__table__,
                     Wine.__table__,
-                    WineStatus.__table__,
                 ],
             )
         )
