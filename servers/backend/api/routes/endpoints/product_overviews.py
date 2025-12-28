@@ -8,7 +8,7 @@ from models.sql.wine import Wine
 
 OVERVIEW_ROUTER = APIRouter(prefix="/overview", tags=["overview"])
 
-OVERVIEW_ROUTER.get("/cellar")
+@OVERVIEW_ROUTER.get("/cellar")
 async def get_wines_in_cellar(sql_session: AsyncSession):
     not_drank_wines_statement = select(Wine).where(Wine.has_been_drunk.is_not(True))
     wines = await sql_session.execute(not_drank_wines_statement)
@@ -20,5 +20,19 @@ async def get_wines_in_cellar(sql_session: AsyncSession):
 async def get_wines_not_in_cellar(sql_session: AsyncSession):
     statement = select(Wine).where(Wine.has_been_drunk.is_(True))
     wines = await sql_session.execute(statement)
+
+    return wines
+
+@OVERVIEW_ROUTER.get("/cellar/currently_in_cellar")
+async def get_wines_currently_in_cellar(sql_session: AsyncSession):
+    wines_currently_in_cellar_statement = select(Wine).where(Wine.in_cellar.is_(True))
+    wines = await sql_session.execute(wines_currently_in_cellar_statement)
+
+    return wines
+
+@OVERVIEW_ROUTER.get("/cellar/pst_wines_in_cellar")
+async def get_past_wines_from_cellar(sql_session: AsyncSession):
+    past_wines_in_cellar_statement = select(Wine).where(Wine.in_cellar.is_not(True))
+    wines = await sql_session.execute(past_wines_in_cellar_statement)
 
     return wines
