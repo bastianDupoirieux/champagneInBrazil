@@ -6,11 +6,12 @@ import datetime
 
 from models.sql.wine import Wine
 
-class FactWine(SQLModel, table=True):
+class DimWine(SQLModel, table=True):
     __tablename__ = "fact_wine"
     id: uuid.UUID = Field(primary_key=True, default=uuid.uuid4)
     wine_id: uuid.UUID = Field(foreign_key="wine.id")
-    fact: str = Field(description="Definition of the fact, can be date drank, date bought, price bought, quantity")
-    value: datetime.date | float | int = Field(description="Value corresponding to the fact")
+    date_bought: Optional[datetime.date] = Field(description = "Date the wine was bought at", default=datetime.date.today())
+    price_bought: Optional[float] = Field(description="Price the wine was bought at")
+    quantity: int = Field(description="Quantity of bottles in the cellar", default = 1)
 
     fact_wine: Wine | None = Relationship(back_populates="facts")
