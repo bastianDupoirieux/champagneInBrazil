@@ -326,3 +326,5 @@ http-client.private.env.json
 
 #Ignore .idea folder
 .idea
+
+/app_data
