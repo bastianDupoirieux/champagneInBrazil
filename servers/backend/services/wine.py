@@ -4,6 +4,9 @@ import uuid
 from fastapi import HTTPException
 
 from models.sql.wine.wine_table import Wine
+from models.sql.wine.create.create_in_cellar import CreateInCellar
+from models.sql.wine.create.create_in_tasting import CreateInTasting
+from models.sql.wine.create.create_in_wishlist import CreateInWishlist
 
 
 async def select_wine_by_id(
@@ -17,3 +20,17 @@ async def select_wine_by_id(
         raise HTTPException(status_code=404, detail="Wine not found")
 
     return wine
+
+
+async def add_wine(
+        wine_data: CreateInCellar | CreateInTasting | CreateInWishlist,
+        sql_session: AsyncSession,
+):
+    wine_data.model_validate(wine_data.model_dump())
+    new_wine = Wine(**wine_data.model_dump())
+
+    sql_session.add(new_wine)
+    await sql_session.commit()
+    await sql_session.refresh(new_wine)
+
+    return new_wine
