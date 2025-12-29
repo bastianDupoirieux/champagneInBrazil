@@ -55,3 +55,11 @@ async def get_tasted_wines(
 
     return wines
 
+@OVERVIEW_ROUTER.get(path="/wishlist", response_model=list[WineRead])
+async def get_wines_on_wishlist(
+        sql_session: AsyncSession = Depends(get_async_session)
+):
+    result = await get_all_wines_on_wishlist(sql_session)
+    wines = convert_orm_to_tuple(result)
+
+    return wines
