@@ -1,5 +1,3 @@
-from collections.abc import AsyncIterable
-import os
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (
@@ -11,7 +9,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlmodel import SQLModel
 
 from models.sql.key_value import KeyValueModel
-from models.sql.wine import Wine
+from models.sql.wine.wine_table import Wine
 from utils.db_utils import get_database_url_and_connect_args
 from utils.get_env import get_database_url_env
 
