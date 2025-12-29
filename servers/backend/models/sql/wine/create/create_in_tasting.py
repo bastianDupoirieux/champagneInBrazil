@@ -2,15 +2,15 @@ from typing import Optional
 import datetime
 from sqlmodel import Field
 
-from wine_base import WineBase
+from models.sql.wine.wine_base import WineBase
 
-class WineCreate(WineBase):
+class CreateInCellar(WineBase):
     in_cellar: bool = Field(
-        default = True,
+        default = False,
         description="Value indicating if the wine has been bought and is in the cellar"
     )
     has_been_tasted: bool = Field(
-        default = False,
+        default = True,
         description="Value indicating if the wine has been drank already"
     )
     on_wishlist: bool = Field(
