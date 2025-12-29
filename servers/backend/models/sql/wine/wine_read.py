@@ -14,9 +14,9 @@ class WineRead(SQLModel):
     colour: str
     vintage: Optional[int]
     notes: Optional[str]
-    in_cellar: Optional[bool]
-    has_been_tasted: Optional[bool]
-    on_wishlist: Optional[bool]
+    in_cellar: bool
+    has_been_tasted: bool
+    on_wishlist: bool
     date_bought: Optional[datetime.date]
     price_bought: Optional[float]
     quantity: Optional[int]

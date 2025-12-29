@@ -29,15 +29,15 @@ class WineBase(SQLModel):
         default = None,
         description="Notes of the wine"
     )
-    in_cellar: Optional[bool] = Field(
+    in_cellar: bool = Field(
         default = None,
         description="Value indicating if the wine has been bought and is in the cellar"
     )
-    has_been_tasted: Optional[bool] = Field(
+    has_been_tasted: bool = Field(
         default = None,
         description="Value indicating if the wine has been drank already"
     )
-    on_wishlist: Optional[bool] = Field(
+    on_wishlist: bool = Field(
         default = None,
         description="Value indicating whether or not the wine is on the wishlist"
     )
