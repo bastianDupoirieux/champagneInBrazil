@@ -4,7 +4,7 @@ from sqlmodel import Field
 
 from models.sql.wine.wine_base import WineBase
 
-class CreateInCellar(WineBase):
+class CreateInTasting(WineBase):
     in_cellar: bool = Field(
         default = False,
         description="Value indicating if the wine has been bought and is in the cellar"
