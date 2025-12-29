@@ -33,7 +33,7 @@ class WineBase(SQLModel):
         default = None,
         description="Value indicating if the wine has been bought and is in the cellar"
     )
-    has_been_drunk: Optional[bool] = Field(
+    has_been_tasted: Optional[bool] = Field(
         default = None,
         description="Value indicating if the wine has been drank already"
     )

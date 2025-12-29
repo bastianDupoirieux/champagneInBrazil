@@ -13,7 +13,7 @@ class WineUpdate(SQLModel):
     notes: Optional[str] = None
 
     in_cellar: Optional[bool] = None
-    has_been_drunk: Optional[bool] = None
+    has_been_tasted: Optional[bool] = None
     on_wishlist: Optional[bool] = None
 
     date_bought: Optional[datetime.date] = None

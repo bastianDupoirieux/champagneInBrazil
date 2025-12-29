@@ -9,7 +9,7 @@ class WineCreate(WineBase):
         default = True,
         description="Value indicating if the wine has been bought and is in the cellar"
     )
-    has_been_drunk: bool = Field(
+    has_been_tasted: bool = Field(
         default = False,
         description="Value indicating if the wine has been drank already"
     )
