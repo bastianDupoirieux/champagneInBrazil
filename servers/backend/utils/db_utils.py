@@ -34,6 +34,3 @@ def get_database_url_and_connect_args(database_url: str) -> tuple[str, dict]:
         pass
 
     return database_url, connect_args
-
-def get_existing_tables_in_db(engine: Engine)->list:
-    return engine.table_names()

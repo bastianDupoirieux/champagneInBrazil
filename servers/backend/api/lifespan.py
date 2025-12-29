@@ -14,5 +14,6 @@ async def app_lifespan(_: FastAPI):
     :param _:
     :return:
     """
-
-    pass
+    os.makedirs(get_app_data_directory_env(), exist_ok=True)
+    await create_db_and_tables()
+    yield
