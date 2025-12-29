@@ -8,7 +8,7 @@ async def get_all_wines_from_cellar(
         sql_session: AsyncSession
 ):
     """
-    Select all wines that are in the
+    Select all wines that are in the cellar
     :param sql_session:
     :return:
     """
@@ -21,7 +21,7 @@ async def get_all_wines_currently_in_cellar(
         sql_session: AsyncSession
 ):
     """
-
+    Wines that are currently in the cellar still exist there
     :param sql_session:
     :return:
     """
@@ -34,7 +34,7 @@ async def get_all_past_wines_from_cellar(
         sql_session: AsyncSession
 ):
     """
-
+    Past wines from the cellar are wines that used to be there but now aren't anymore. Quantity == 0
     :param sql_session:
     :return:
     """
@@ -43,7 +43,7 @@ async def get_all_past_wines_from_cellar(
 
     return result
 
-async def get_wines_on_wishlist(
+async def get_all_wines_on_wishlist(
         sql_session: AsyncSession
 ):
     """
@@ -56,7 +56,7 @@ async def get_wines_on_wishlist(
 
     return result
 
-async def get_tasted_wines(
+async def get_all_tasted_wines(
         sql_session: AsyncSession
 ):
     """

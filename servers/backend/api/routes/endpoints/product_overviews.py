@@ -1,38 +1,57 @@
 #Contains the routes to the "my cellar" and "experienced wines" pages
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import APIRouter
-from sqlmodel import select
+from fastapi import APIRouter, Depends
 
-from models.sql.wine import Wine
+from models.sql.wine.wine_table import Wine
+from models.sql.wine.wine_read import WineRead
+
+from services.database import get_async_session
+from services.wine_lists import (
+get_all_wines_from_cellar,
+get_all_wines_currently_in_cellar,
+get_all_past_wines_from_cellar,
+get_all_wines_on_wishlist,
+get_all_tasted_wines,
+)
+
+from utils.orm import convert_orm_to_tuple
 
 
 OVERVIEW_ROUTER = APIRouter(prefix="/overview", tags=["overview"])
 
-@OVERVIEW_ROUTER.get("/cellar")
-async def get_wines_in_cellar(sql_session: AsyncSession):
-    not_drank_wines_statement = select(Wine).where(Wine.has_been_drunk.is_not(True))
-    wines = await sql_session.execute(not_drank_wines_statement)
+@OVERVIEW_ROUTER.get(path="/cellar", response_model=list[WineRead])
+async def get_wines_in_cellar(
+        sql_session: AsyncSession = Depends(get_async_session)
+):
+    result = await get_all_wines_from_cellar(sql_session)
+    wines = convert_orm_to_tuple(result)
 
     return wines
 
-
-@OVERVIEW_ROUTER.get("/experienced_wines")
-async def get_wines_not_in_cellar(sql_session: AsyncSession):
-    statement = select(Wine).where(Wine.has_been_drunk.is_(True))
-    wines = await sql_session.execute(statement)
-
-    return wines
-
-@OVERVIEW_ROUTER.get("/cellar/currently_in_cellar")
-async def get_wines_currently_in_cellar(sql_session: AsyncSession):
-    wines_currently_in_cellar_statement = select(Wine).where(Wine.in_cellar.is_(True))
-    wines = await sql_session.execute(wines_currently_in_cellar_statement)
+@OVERVIEW_ROUTER.get(path="/cellar/current", response_model=list[WineRead])
+async def get_wines_currently_in_cellar(
+        sql_session: AsyncSession = Depends(get_async_session)
+):
+    result = await get_all_wines_currently_in_cellar(sql_session)
+    wines = convert_orm_to_tuple(result)
 
     return wines
 
-@OVERVIEW_ROUTER.get("/cellar/pst_wines_in_cellar")
-async def get_past_wines_from_cellar(sql_session: AsyncSession):
-    past_wines_in_cellar_statement = select(Wine).where(Wine.in_cellar.is_not(True))
-    wines = await sql_session.execute(past_wines_in_cellar_statement)
+@OVERVIEW_ROUTER.get(path="/cellar/past", response_model=list[WineRead])
+async def get_past_wines_from_cellar(
+        sql_session: AsyncSession = Depends(get_async_session)
+):
+    result = await get_all_past_wines_from_cellar(sql_session)
+    wines = convert_orm_to_tuple(result)
 
     return wines
+
+@OVERVIEW_ROUTER.get(path="/tasted", response_model=list[WineRead])
+async def get_tasted_wines(
+        sql_session: AsyncSession = Depends(get_async_session)
+):
+    result = await get_all_tasted_wines(sql_session)
+    wines = convert_orm_to_tuple(result)
+
+    return wines
+
