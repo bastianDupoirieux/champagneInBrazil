@@ -8,6 +8,8 @@ def get_database_url_and_connect_args(database_url: str) -> tuple[str, dict]:
     if not database_url.startswith('sqlite://'):
         raise ValueError("database_url must start with sqlite://")
 
+    if database_url.startswith("sqlite://"):
+        database_url = database_url.replace("sqlite://", "sqlite+aiosqlite://", 1)
     connect_args = {"check_same_thread": False}
 
     try:
