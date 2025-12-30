@@ -1,7 +1,7 @@
 import uuid
 from sqlmodel import Field
 
-from wine_base import WineBase
+from .wine_base import WineBase
 
 class Wine(WineBase, table=True):
     __tablename__ = "wine"
