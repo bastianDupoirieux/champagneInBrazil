@@ -1,3 +1,4 @@
+// API Error Response Interface
 interface ApiErrorResponse {
     detail?: string;
     message?: string;
