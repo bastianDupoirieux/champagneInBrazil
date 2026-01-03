@@ -350,3 +350,7 @@ chroma
 container.db
 .next-build
 .cursor
+
+!package-lock.json
+!package.json
+!tsconfig.json

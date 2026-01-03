@@ -1,5 +1,7 @@
+import { v4 as uuidv4 } from "uuid";
+
 export interface Wine {
-    id: string;
+    id: typeof uuidv4;
     name: string;
     producer: string;
     region?: string;
