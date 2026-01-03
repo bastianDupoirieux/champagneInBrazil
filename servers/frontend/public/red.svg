@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="300" height="900" viewBox="0 0 300 900" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Cork top protection (red capsule) -->
+  <rect x="125" y="40" width="50" height="85" rx="12" fill="#8b1e1e"/>
+
+  <!-- Bottle neck (thicker) -->
+  <rect x="125" y="115" width="50" height="75" rx="10" fill="#1b3a2a"/>
+
+  <!-- Wine inside bottle (dark red tone) -->
+  <path d="
+    M90 230
+    L210 230
+    L210 665
+    C210 705, 90 705, 90 665
+    Z" fill="#5a0f14" opacity="0.85"/>
+
+  <!-- Bottle body with smooth shoulders -->
+  <path d="
+    M80 190
+    C80 150, 220 150, 220 190
+    L220 680
+    C220 720, 80 720, 80 680
+    Z" fill="#1b3a2a"/>
+
+  <!-- Bottle base -->
+  <ellipse cx="150" cy="680" rx="70" ry="18" fill="#162e22"/>
+
+  <!-- White label (etiquette) -->
+  <rect x="105" y="400" width="90" height="160" rx="10" fill="#ffffff"/>
+
+  <!-- Subtle label border -->
+  <rect x="110" y="405" width="80" height="150" rx="8"
+        fill="none" stroke="#dddddd" stroke-width="2"/>
+</svg>
