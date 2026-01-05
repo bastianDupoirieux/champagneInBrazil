@@ -29,6 +29,11 @@ DESIGN TOKENS
     --max-width: 1200px;
     --border-radius: 8px;
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    /* Sidebar */
+    --sidebar-width: 250px;
+    --sidebar-bg: #ffffff;
+    --sidebar-border: var(--border-color);
 
 }
 
@@ -81,4 +86,168 @@ WINE LIST V CARD COMPONENTS
 
 .wine-vintage-v-card {
     color: var(--text-primary);
+}
+
+/* ==============================
+SIDEBAR COMPONENTS
+================================= */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .sidebar-overlay {
+        display: block;
+    }
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    box-shadow: var(--shadow-sm);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.sidebar-open {
+    transform: translateX(0);
+}
+
+.sidebar-closed {
+    transform: translateX(-100%);
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        position: relative;
+        transform: translateX(0);
+        height: 100vh;
+    }
+    
+    .sidebar-closed {
+        transform: translateX(0);
+    }
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-4);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-5);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-title {
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.sidebar-close-button {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--space-1);
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.sidebar-close-button:hover {
+    color: var(--text-primary);
+}
+
+@media (max-width: 767px) {
+    .sidebar-close-button {
+        display: block;
+    }
+}
+
+.sidebar-nav {
+    flex: 1;
+}
+
+.sidebar-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.sidebar-nav-item {
+    margin: 0;
+}
+
+.nav-link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: all 0.2s ease;
+    font-size: var(--font-size-base);
+}
+
+.nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+.nav-link-active {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.nav-link-active:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+/* ==============================
+LAYOUT COMPONENTS
+================================= */
+.layout-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 0;
+    padding: var(--space-4);
+    transition: margin-left 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        margin-left: var(--sidebar-width);
+    }
 }
