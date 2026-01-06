@@ -9,11 +9,11 @@ export type WineListType =
     | "wishlist"; // Wines on the wishlist
 
 const endpointMap: Record<WineListType, string> = {
-    "cellar": "/overview/cellar",
-    "cellar/current": "/overview/cellar/current",
-    "cellar/past": "/overview/cellar/past",
-    "tasted": "/overview/tasted",
-    "wishlist": "/overview/wishlist",
+    "cellar": "/api/overview/cellar",
+    "cellar/current": "/api/overview/cellar/current",
+    "cellar/past": "/api/overview/cellar/past",
+    "tasted": "/api/overview/tasted",
+    "wishlist": "/api/overview/wishlist",
 };
 
 export async function fetchWinesList(listType: WineListType, errorMessage?: string): Promise<Wine[]>{
