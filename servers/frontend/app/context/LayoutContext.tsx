@@ -4,6 +4,7 @@ import React, {
     useContext,
     useState,
     ReactNode,
+    useCallback,
 } from "react";
 
 interface LayoutContextType {
@@ -20,13 +21,13 @@ export default function LayoutProvider({ children }: { children: ReactNode }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [currentSection, setCurrentSection] = useState<string | null>(null);
 
-    const toggleSidebar = () => {
+    const toggleSidebar = useCallback(() => {
         setSidebarOpen((prev) => !prev);
-    };
+    }, []);
 
-    const closeSidebar = () => {
+    const closeSidebar = useCallback(() => {
         setSidebarOpen(false);
-    };
+    }, []);
 
     return (
         <LayoutContext.Provider
