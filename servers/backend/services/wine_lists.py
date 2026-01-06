@@ -64,7 +64,7 @@ async def get_all_tasted_wines(
     :param sql_session:
     :return:
     """
-    statement = select(Wine.has_been_tasted.is_(True))
+    statement = select(Wine).where(Wine.has_been_tasted.is_(True))
     result = await sql_session.execute(statement)
 
     return result

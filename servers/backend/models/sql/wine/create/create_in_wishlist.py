@@ -36,12 +36,12 @@ class CreateInWishlist(WineBase):
         :return:
         """
         in_cellar = values.get("in_cellar", False)
-        has_been_drunk = values.get("has_been_drunk", False)
+        has_been_tasted = values.get("has_been_tasted", False)
         on_wishlist = values.get("on_wishlist", False)
 
-        if not (in_cellar or has_been_drunk or on_wishlist):
+        if not (in_cellar or has_been_tasted or on_wishlist):
             raise ValueError(
-                "At least one of 'in_cellar', 'has_been_drunk' or 'on_wishlist' must be True"
+                "At least one of 'in_cellar', 'has_been_tasted' or 'on_wishlist' must be True"
             )
 
         return values
