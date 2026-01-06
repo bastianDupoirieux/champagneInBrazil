@@ -19,34 +19,3 @@ async def add_wine_to_db(
     wine = await add_wine(payload, sql_session)
 
     return WineRead.model_validate(wine, from_attributes=True)
-
-'''
-@ADD_ROUTER.post(path="/cellar/add", response_model=WineRead)
-async def add_wine_to_cellar(
-        payload: CreateInCellar,
-        sql_session: AsyncSession = Depends(get_async_session)
-):
-    wine = await add_wine(payload, sql_session)
-
-    return WineRead.model_validate(wine, from_attributes=True)
-
-
-@ADD_ROUTER.post(path="/tasted/add", response_model=WineRead)
-async def add_wine_to_tasted(
-        payload: CreateInTasting,
-        sql_session: AsyncSession = Depends(get_async_session)
-):
-    wine = await add_wine(payload, sql_session)
-
-    return WineRead.model_validate(wine, from_attributes=True)
-
-
-@ADD_ROUTER.post(path="/wishlist/add", response_model=WineRead)
-async def add_wine_to_wishlist(
-        payload: CreateInWishlist,
-        sql_session: AsyncSession = Depends(get_async_session)
-):
-    wine = await add_wine(payload, sql_session)
-
-    return WineRead.model_validate(wine, from_attributes=True)
-'''
