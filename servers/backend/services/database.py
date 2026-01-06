@@ -21,7 +21,7 @@ sql_engine: AsyncEngine = create_async_engine(database_url, connect_args=connect
 async_session_maker = async_sessionmaker(sql_engine, expire_on_commit=False)
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
-    async with async_session_maker as session:
+    async with async_session_maker() as session:
         yield session
 
 async def create_db_and_tables():

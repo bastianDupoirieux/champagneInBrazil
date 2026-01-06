@@ -11,6 +11,16 @@ from services.wine import add_wine
 
 ADD_ROUTER = APIRouter()
 
+@ADD_ROUTER.post(path="/add", response_model=WineRead)
+async def add_wine(
+        payload: CreateInCellar | CreateInTasting | CreateInWishlist,
+        sql_session: AsyncSession = Depends(get_async_session)
+):
+    wine = await add_wine(payload, sql_session)
+
+    return WineRead.model_validate(wine, from_attributes=True)
+
+'''
 @ADD_ROUTER.post(path="/cellar/add", response_model=WineRead)
 async def add_wine_to_cellar(
         payload: CreateInCellar,
@@ -39,3 +49,4 @@ async def add_wine_to_wishlist(
     wine = await add_wine(payload, sql_session)
 
     return WineRead.model_validate(wine, from_attributes=True)
+'''
