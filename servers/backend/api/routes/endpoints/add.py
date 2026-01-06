@@ -12,7 +12,7 @@ from services.wine import add_wine
 ADD_ROUTER = APIRouter()
 
 @ADD_ROUTER.post(path="/add", response_model=WineRead)
-async def add_wine(
+async def add_wine_to_db(
         payload: CreateInCellar | CreateInTasting | CreateInWishlist,
         sql_session: AsyncSession = Depends(get_async_session)
 ):
