@@ -2,6 +2,7 @@ import React from "react";
 import localFont from "next/font/local";
 import LayoutProvider from "./context/LayoutContext";
 import Sidebar from "@/components/Sidebar";
+import AddWineButton from "@/components/AddWine/AddWineButton";
 import "./globals.css";
 
 const inter = localFont({
@@ -31,6 +32,7 @@ export default function RootLayout({
                         <main className="main-content">
                             {children}
                         </main>
+                        <AddWineButton />
                     </div>
                 </LayoutProvider>
             </body>

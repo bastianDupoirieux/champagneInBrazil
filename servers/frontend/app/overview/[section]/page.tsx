@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import WineList from "@/components/WineList";
 import type { Wine } from "@/types/wine";
 import {
-    fetchCurrentWinesInCellar,
+    fetchWinesInCellar,
     fetchTastedWines,
     fetchWinesOnWishlist,
 } from "@/services/api/wine-lists";
@@ -32,14 +32,14 @@ export default function OverviewPage() {
 
         const fetchers: Record<Section, () => Promise<Wine[]>> = {
             // Requirement: within "cellar" use only the "cellar/current" endpoint
-            cellar: fetchCurrentWinesInCellar,
+            cellar: fetchWinesInCellar,
             tasted: fetchTastedWines,
             wishlist: fetchWinesOnWishlist,
         };
 
         return {
             title: titleMap[section] ?? "Wines",
-            fetcher: fetchers[section] ?? fetchCurrentWinesInCellar,
+            fetcher: fetchers[section] ?? fetchWinesInCellar,
         };
     }, [section]);
     
@@ -69,6 +69,36 @@ export default function OverviewPage() {
             isMounted = false;
         };
     }, [sectionConfig]);
+
+useEffect(() => {
+    let isMounted = true;
+    
+    const handleWineAdded = (event: CustomEvent) => {
+        // Refetch wines when a wine is added
+        const load = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const data = await sectionConfig.fetcher();
+                if (!isMounted) return; // Add this check
+                setWines(data);
+            } catch (err) {
+                if (!isMounted) return; // Add this check
+                setError(err instanceof Error ? err.message : "Failed to load wines.");
+            } finally {
+                if (isMounted) setLoading(false); // Add this check
+            }
+        };
+        load();
+    };
+
+    window.addEventListener('wineAdded', handleWineAdded as EventListener);
+    
+    return () => {
+        isMounted = false; // Add this cleanup
+        window.removeEventListener('wineAdded', handleWineAdded as EventListener);
+    };
+}, [sectionConfig]);
 
     return (
         <div className="page-shell">

@@ -310,3 +310,254 @@ PAGE & WINE LIST LAYOUT
         gap: var(--space-3);
     }
 }
+
+/* ==============================
+ADD WINE FORM COMPONENTS
+================================= */
+.add-wine-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+}
+
+.add-wine-form-title {
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.add-wine-form-error {
+    padding: var(--space-2);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--space-2);
+}
+
+.add-wine-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.add-wine-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.add-wine-form-label {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.add-wine-form-required {
+    color: var(--error-color);
+}
+
+.add-wine-form-input {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    background: var(--bg-card);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-wine-form-input:focus {
+    outline: none;
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 2px rgba(51, 51, 51, 0.1);
+}
+
+.add-wine-form-input-error {
+    border-color: var(--error-color);
+}
+
+.add-wine-form-input-error:focus {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1);
+}
+
+.add-wine-form-select {
+    cursor: pointer;
+}
+
+.add-wine-form-textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.add-wine-form-field-error {
+    font-size: var(--font-size-sm);
+    color: var(--error-color);
+    margin-top: calc(var(--space-1) * -1);
+}
+
+.add-wine-form-actions {
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--border-color);
+}
+
+.add-wine-form-button {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-wine-form-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.add-wine-form-button-primary {
+    background-color: #4caf50;
+    color: white;
+    border-color: #4caf50;
+}
+
+.add-wine-form-button-primary:hover:not(:disabled) {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.add-wine-form-button-secondary {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.add-wine-form-button-secondary:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.add-wine-form-checkbox {
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-right: var(--space-2);
+    cursor: pointer;
+    accent-color: #4caf50;
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) * 0.5);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-wine-form-checkbox:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.add-wine-form-checkbox:hover {
+    border-color: #4caf50;
+}
+
+/* ==============================
+ADD WINE MODAL COMPONENTS
+================================= */
+.add-wine-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    overflow-y: auto;
+}
+
+.add-wine-modal-container {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: auto;
+}
+
+.add-wine-modal-close {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--space-1);
+    line-height: 1;
+    transition: color 0.2s ease;
+    z-index: 1;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+}
+
+.add-wine-modal-close:hover {
+    color: var(--text-primary);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* ==============================
+ADD WINE BUTTON COMPONENTS
+================================= */
+.add-wine-button {
+    position: fixed;
+    bottom: var(--space-5);
+    right: var(--space-5);
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.add-wine-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+
+.add-wine-button:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 767px) {
+    .add-wine-button {
+        bottom: var(--space-4);
+        right: var(--space-4);
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.75rem;
+    }
+}
