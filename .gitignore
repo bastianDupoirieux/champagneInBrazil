@@ -326,3 +326,31 @@ http-client.private.env.json
 
 #Ignore .idea folder
 .idea
+
+/app_data
+
+
+.env
+.venv
+build
+__pycache__
+.pytest_cache
+.next
+node_modules
+out
+user_data
+app_data
+tmp
+debug
+.fastembed_cache
+
+generated_models
+nltk
+chroma
+container.db
+.next-build
+.cursor
+
+!package-lock.json
+!package.json
+!tsconfig.json

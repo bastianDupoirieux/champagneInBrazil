@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="520" viewBox="0 0 320 520" role="img" aria-label="Champagne bottle with V-shaped foil capsule">
+  <defs>
+    <!-- Champagne / white Burgundy–like glass -->
+    <linearGradient id="glassGradChamp" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4f826d"/>
+      <stop offset="60%" stop-color="#426f5e"/>
+      <stop offset="100%" stop-color="#325a4c"/>
+    </linearGradient>
+
+    <linearGradient id="shadowGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.12"/>
+      <stop offset="50%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.18"/>
+    </linearGradient>
+
+    <!-- Gold foil / label -->
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7dc86"/>
+      <stop offset="45%" stop-color="#e7c255"/>
+      <stop offset="100%" stop-color="#c39425"/>
+    </linearGradient>
+
+    <linearGradient id="goldShadow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.12"/>
+      <stop offset="60%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Champagne bottle silhouette (no thick neck ring) -->
+  <path d="
+    M 134 44
+    Q 134 30 148 28
+    L 172 28
+    Q 186 30 186 44
+    L 186 118
+    Q 186 138 204 154
+    Q 230 176 242 212
+    Q 250 236 250 268
+    L 250 426
+    Q 250 472 214 486
+    Q 194 492 160 492
+    Q 126 492 106 486
+    Q 70 472 70 426
+    L 70 268
+    Q 70 236 78 212
+    Q 90 176 116 154
+    Q 134 138 134 118
+    Z" fill="url(#glassGradChamp)"/>
+
+  <!-- Inner shading -->
+  <path d="
+    M 96 262
+    Q 96 236 102 220
+    Q 112 190 134 170
+    Q 150 156 150 118
+    L 150 48
+    Q 150 40 156 38
+    L 164 38
+    Q 170 40 170 48
+    L 170 118
+    Q 170 156 186 170
+    Q 208 190 218 220
+    Q 224 236 224 262
+    L 224 430
+    Q 224 456 204 468
+    Q 186 474 160 474
+    Q 134 474 116 468
+    Q 96 456 96 430
+    Z" fill="url(#shadowGrad)"/>
+
+  <!-- Gold capsule with thicker top and V-shaped drop over shoulders -->
+  <path d="
+    M 118 18
+    Q 118 6 138 4
+    L 182 4
+    Q 202 6 202 18
+    L 202 150
+    Q 202 170 188 188
+    L 160 212
+    L 132 188
+    Q 118 170 118 150
+    Z" fill="url(#gold)"/>
+
+  <!-- Capsule side shading -->
+  <path d="
+    M 130 24
+    Q 130 14 146 12
+    L 174 12
+    Q 190 14 190 24
+    L 190 148
+    Q 190 164 180 176
+    L 160 194
+    L 140 176
+    Q 130 164 130 148
+    Z" fill="url(#goldShadow)"/>
+
+  <!-- Gold label – modified shape (champagne-style shield/rounded trapezoid) -->
+  <path d="
+    M 120 300
+    Q 160 276 200 300
+    L 192 408
+    Q 160 428 128 408
+    Z" fill="url(#gold)" stroke="#b8871f" stroke-width="3"/>
+
+  <!-- Punt shadow -->
+  <ellipse cx="160" cy="456" rx="74" ry="18" fill="#000000" opacity="0.18"/>
+</svg>

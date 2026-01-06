@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="520" viewBox="0 0 320 520" role="img" aria-label="Extra-round Burgundy white wine bottle">
+  <defs>
+    <linearGradient id="glassGradWhite" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4f826d"/>
+      <stop offset="60%" stop-color="#426f5e"/>
+      <stop offset="100%" stop-color="#325a4c"/>
+    </linearGradient>
+    <linearGradient id="shadowGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.12"/>
+      <stop offset="50%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Extra-low shoulder Burgundy silhouette -->
+  <path d="
+    M 130 40
+    Q 130 28 142 26
+    L 178 26
+    Q 190 28 190 40
+    L 190 124
+    Q 190 170 222 212
+    Q 248 248 248 296
+    L 248 422
+    Q 248 468 212 484
+    Q 192 490 160 490
+    Q 128 490 108 484
+    Q 72 468 72 422
+    L 72 296
+    Q 72 248 98 212
+    Q 130 170 130 124
+    Z" fill="url(#glassGradWhite)"/>
+
+  <!-- Inner shading -->
+  <path d="
+    M 98 292
+    Q 98 252 116 224
+    Q 138 190 146 124
+    L 146 44
+    Q 146 38 150 36
+    L 170 36
+    Q 174 38 174 44
+    L 174 124
+    Q 182 190 204 224
+    Q 222 252 222 292
+    L 222 426
+    Q 222 456 202 468
+    Q 184 474 160 474
+    Q 136 474 118 468
+    Q 98 456 98 426
+    Z" fill="url(#shadowGrad)"/>
+
+  <!-- White capsule -->
+  <path d="
+    M 130 18
+    Q 130 6 142 4
+    L 178 4
+    Q 190 6 190 18
+    L 190 56
+    Q 190 66 178 68
+    L 142 68
+    Q 130 66 130 56
+    Z" fill="#f4f4f4" stroke="#d2d2d2" stroke-width="1"/>
+
+  <!-- Neck below capsule -->
+  <rect x="142" y="72" width="36" height="56" rx="18" fill="#436f5e" opacity="0.55"/>
+
+  <!-- Bottom shadow -->
+  <ellipse cx="160" cy="454" rx="74" ry="18" fill="#253f35" opacity="0.55"/>
+
+  <!-- Label -->
+  <rect x="108" y="300" width="104" height="108" rx="14" fill="#fafafa" stroke="#dedede" stroke-width="3"/>
+  <rect x="116" y="308" width="88" height="92" rx="12" fill="#ffffff" opacity="0.9"/>
+</svg>
