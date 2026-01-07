@@ -18,7 +18,7 @@ async def wine_details(
 ):
     wine = await select_wine_by_id(wine_id, sql_session)
 
-    return wine
+    return WineRead.model_validate(wine, from_attributes=True)
 
 @WINE_ROUTER.post(path="/details", response_model=WineRead)
 async def edit_wine(
