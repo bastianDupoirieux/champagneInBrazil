@@ -88,6 +88,30 @@ WINE LIST V CARD COMPONENTS
     color: var(--text-primary);
 }
 
+.go-to-details-button {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--text-primary);
+    background-color: var(--bg-card);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.go-to-details-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: var(--text-primary);
+}
+
+.go-to-details-button:active {
+    transform: scale(0.98);
+    color: var(--text-primary);
+}
+
 /* ==============================
 SIDEBAR COMPONENTS
 ================================= */

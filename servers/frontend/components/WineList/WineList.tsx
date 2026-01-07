@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import type { Wine } from "@/types/wine";
 import { WineListVCard } from "./wine-list-v-card";
 import { Loader } from "../ui/loader";
