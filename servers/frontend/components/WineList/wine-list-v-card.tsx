@@ -24,7 +24,7 @@ export const WineListVCard: React.FC<WineListVCardProps> = ({ wine }) => {
                 <span className="wine-separator-v-card"> - </span>
                 <span className="wine-producer-v-card">{wine.producer}</span>
                 {vintageDisplay && (
-                    <span className="wine-vintage-v-card">{vintageDisplay}</span>
+                    <span className="wine-vintage-v-card">({vintageDisplay})</span>
                 )}
             </div>
         </div>

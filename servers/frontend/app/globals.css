@@ -303,14 +303,6 @@ PAGE & WINE LIST LAYOUT
     gap: var(--space-3);
 }
 
-@media (min-width: 640px) {
-    .wine-list-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: var(--space-3);
-    }
-}
-
 /* ==============================
 ADD WINE FORM COMPONENTS
 ================================= */
