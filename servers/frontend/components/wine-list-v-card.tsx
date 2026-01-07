@@ -1,33 +1,14 @@
 //import React from 'react';
 import React from 'react';
 import type { Wine } from '../types/wine'
+import { mapImageToColour } from '../utils/mapImageToColour';
 
 interface WineListVCardProps {
     wine: Wine;
 }
 
-function getBottleImagePath(colour: string): string {
-    // Normalise colours
-    const normalisedColour = colour
-        .toLowerCase()
-        .trim()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, '-');
-
-    const colourMap: Record<string, string> = {
-        "red": "/red.svg",
-        "white": "/white.svg",
-        "rose": "/rose.svg",
-        "orange": "/orange.svg",
-        "sparkling": "/sparkling.svg"
-    };
-
-    return colourMap[normalisedColour] || "/bottle.svg";
-}
-
 export const WineListVCard: React.FC<WineListVCardProps> = ({ wine }) => {
-    const bottleImagePath = getBottleImagePath(wine.colour)
+    const bottleImagePath = mapImageToColour(wine.colour)
 
     const vintageDisplay = wine.vintage ? (`${wine.vintage}`): '';
 
