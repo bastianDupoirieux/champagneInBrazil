@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import WineDetails from "@/components/WineDetails/WineDetails";
+import { BackButton } from "@/components/ui/backButton";
 import type { Wine } from "@/types/wine";
 import { fetchWineDetails } from "@/services/api/wine-details";
 
 export default function DetailsPage() {
     const params = useParams<{ wineId: string }>();
+    const router = useRouter();
     const wineId = params?.wineId as string;
 
     const [wine, setWine] = useState<Wine | null>(null);
@@ -45,6 +47,7 @@ export default function DetailsPage() {
 
     return (
         <div className="page-shell">
+            <BackButton className="back-button" />
             <WineDetails
                 wine={wine}
                 loading={loading}
