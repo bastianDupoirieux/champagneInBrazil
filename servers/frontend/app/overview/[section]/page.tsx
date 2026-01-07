@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import WineList from "@/components/WineList";
+import WineList from "@/components/WineList/WineList";
 import type { Wine } from "@/types/wine";
 import {
     fetchWinesInCellar,
