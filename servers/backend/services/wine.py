@@ -14,9 +14,10 @@ async def select_wine_by_id(
         sql_session: AsyncSession
 ):
     statement = select(Wine).where(Wine.id == wine_id)
-    wine = await sql_session.execute(statement)
+    result = await sql_session.execute(statement)
+    wine = result.scalar_one_or_none()
 
-    if not wine:
+    if wine is None:
         raise HTTPException(status_code=404, detail="Wine not found")
 
     return wine

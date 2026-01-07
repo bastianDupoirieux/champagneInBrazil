@@ -88,6 +88,30 @@ WINE LIST V CARD COMPONENTS
     color: var(--text-primary);
 }
 
+.go-to-details-button {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--text-primary);
+    background-color: var(--bg-card);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.go-to-details-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: var(--text-primary);
+}
+
+.go-to-details-button:active {
+    transform: scale(0.98);
+    color: var(--text-primary);
+}
+
 /* ==============================
 SIDEBAR COMPONENTS
 ================================= */
@@ -261,6 +285,7 @@ PAGE & WINE LIST LAYOUT
     gap: var(--space-3);
     max-width: var(--max-width);
     margin: 0 auto;
+    position: relative;
 }
 
 .page-title {
@@ -301,14 +326,6 @@ PAGE & WINE LIST LAYOUT
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-}
-
-@media (min-width: 640px) {
-    .wine-list-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: var(--space-3);
-    }
 }
 
 /* ==============================
@@ -560,4 +577,258 @@ ADD WINE BUTTON COMPONENTS
         height: 3rem;
         font-size: 1.75rem;
     }
+}
+
+/* ==============================
+LOADER COMPONENTS
+================================= */
+.loader-message {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    margin: 0 0 var(--space-3) 0;
+    text-align: center;
+}
+
+.loader-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--text-primary);
+    border-radius: 50%;
+    animation: loader-spin 0.8s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* ==============================
+ERROR COMPONENTS
+================================= */
+.error-message {
+    color: var(--error-color);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+}
+
+/* ==============================
+WINE DETAIL TITLE COMPONENTS
+================================= */
+.wine-detail-title-container {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border-radius: 0;
+}
+
+.wine-detail-title-image {
+    width: 80px;
+    height: auto;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.wine-detail-title-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--border-radius);
+    flex: 1;
+}
+
+.wine-detail-title-name {
+    font-weight: bold;
+    font-size: var(--font-size-xl);
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.wine-detail-title-vintage {
+    font-weight: normal;
+}
+
+.wine-detail-title-producer {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+}
+
+.wine-detail-title-bg-red {
+    background-color: #ffebee;
+}
+
+.wine-detail-title-bg-white {
+    background-color: #fafafa;
+}
+
+.wine-detail-title-bg-rose {
+    background-color: #fce4ec;
+}
+
+.wine-detail-title-bg-orange {
+    background-color: #fff3e0;
+}
+
+.wine-detail-title-bg-sparkling {
+    background-color: #fffde7;
+}
+
+.wine-detail-title-bg-default {
+    background-color: var(--bg-card);
+}
+
+/* ==============================
+WINE DETAIL BODY COMPONENTS
+================================= */
+.wine-detail-body-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+}
+
+.wine-detail-body-checkboxes {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.wine-detail-body-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    cursor: default;
+}
+
+.wine-detail-body-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+    .wine-detail-body-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wine-detail-body-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.wine-detail-body-section-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.wine-detail-body-section-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.wine-detail-body-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.wine-detail-body-label {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.wine-detail-body-value {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+}
+
+.wine-detail-body-notes {
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+.wine-detail-body-empty {
+    font-size: var(--font-size-base);
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0;
+}
+/* ==============================
+WINE DETAILS CONTAINER
+================================= */
+.wine-details-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--space-8) - var(--space-8) - 3.5rem);
+    min-height: 600px;
+    gap: 0;
+    padding: 0;
+    margin-top: 3.5rem;
+}
+
+.wine-detail-title-container {
+    flex: 1;
+    min-height: 0;
+}
+
+.wine-detail-body-container {
+    flex: 2;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+    .wine-details-container {
+        height: auto;
+        min-height: auto;
+    }
+    
+    .wine-detail-title-container {
+        flex: 0 0 auto;
+    }
+    
+    .wine-detail-body-container {
+        flex: 0 0 auto;
+    }
+}
+
+.back-button {
+    position: absolute;
+    top: var(--space-2);
+    left: var(--space-4);
+    background: none;
+    border: none;
+    font-size: var(--font-size-base);
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: var(--space-2);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    transition: color 0.2s ease;
+}
+
+.back-button:hover{
+    color: var(--text-secondary);
 }
