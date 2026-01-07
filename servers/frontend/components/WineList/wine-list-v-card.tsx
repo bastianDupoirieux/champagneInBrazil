@@ -1,7 +1,7 @@
 //import React from 'react';
 import React from 'react';
 import type { Wine } from '../../types/wine'
-import { mapImageToColour } from '../../utils/mapImageToColour';
+import { mapImageToColour } from '../../utils/colours';
 
 interface WineListVCardProps {
     wine: Wine;

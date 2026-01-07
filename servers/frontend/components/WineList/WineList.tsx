@@ -3,6 +3,8 @@
 import React from "react";
 import type { Wine } from "@/types/wine";
 import { WineListVCard } from "./wine-list-v-card";
+import { Loader } from "../ui/loader";
+import { Error } from "../ui/error";
 
 interface WineListProps {
     wines?: Wine[];               // Array of wines to render (optional to allow loading state)
@@ -29,22 +31,12 @@ export default function WineList({
     const wineList = Array.isArray(wines) ? wines : []; //Ensures the element of wines given is an array
     // When data is loading, show a simple placeholder (can be replaced with skeleton UI).
     if (loading) {
-        return (
-            <section className="wine-list-container">
-                {title && <h2 className="wine-list-title">{title}</h2>}
-                <p className="wine-list-status">Loading wines…</p>
-            </section>
-        );
+        return <Loader message="Loading wines..." className ="wine-list-container"/>;
     }
 
     // If an error occurred, surface it to the user.
     if (error) {
-        return (
-            <section className="wine-list-container">
-                {title && <h2 className="wine-list-title">{title}</h2>}
-                <p className="wine-list-status wine-list-error">{error}</p>
-            </section>
-        );
+        return <Error error={error} className="wine-list-container" />;
     }
 
     // No wines to show -> render empty state.
