@@ -3,7 +3,6 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import type { Wine } from '../../types/wine'
 import { mapImageToColour } from '../../utils/colours';
-import { GoToDetailsButton } from './GoToDetailsButton';
 
 interface WineListVCardProps {
     wine: Wine;
@@ -12,7 +11,7 @@ interface WineListVCardProps {
 export const WineListVCard: React.FC<WineListVCardProps> = ({ wine }) => {
     const router = useRouter();
     const handleClick = () => {
-        router.push(`/wine/details/${wine.id}`);
+        router.push(`/wine/${wine.id}/details`);
     };
 
     const bottleImagePath = mapImageToColour(wine.colour)
@@ -34,7 +33,7 @@ export const WineListVCard: React.FC<WineListVCardProps> = ({ wine }) => {
                     <span className="wine-vintage-v-card">({vintageDisplay})</span>
                 )}
             </div>
-            <GoToDetailsButton wineId={String(wine.id)} />
+            
         </div>
     );
 };

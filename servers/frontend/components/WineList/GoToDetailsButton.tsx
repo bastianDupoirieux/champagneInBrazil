@@ -12,7 +12,7 @@ export const GoToDetailsButton: React.FC<GoToDetailsButtonProps> = ({ wineId, cl
     const router = useRouter();
 
     const handleClick = () => {
-        router.push(`/wine/details/${wineId}`);
+        router.push(`/wine/${wineId}/details`);
     };
 
     return (
