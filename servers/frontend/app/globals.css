@@ -607,6 +607,7 @@ WINE DETAIL TITLE COMPONENTS
     gap: var(--space-4);
     padding: var(--space-4);
     border-radius: var(--border-radius);
+    flex: 1;
 }
 
 .wine-detail-title-image {
@@ -673,6 +674,7 @@ WINE DETAIL BODY COMPONENTS
     flex-direction: column;
     gap: var(--space-4);
     padding: var(--space-4);
+    flex: 2;
 }
 
 .wine-detail-body-checkboxes {
@@ -755,4 +757,24 @@ WINE DETAIL BODY COMPONENTS
     color: var(--text-muted);
     font-style: italic;
     margin: 0;
+}
+/* ==============================
+WINE DETAILS CONTAINER
+================================= */
+.wine-details-container {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-4);
+    padding: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+    .wine-details-container {
+        flex-direction: column;
+    }
+    
+    .wine-detail-title-container,
+    .wine-detail-body-container {
+        flex: 1;
+    }
 }

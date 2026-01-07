@@ -3,6 +3,7 @@
 import React from "react";
 import type { Wine } from "@/types/wine";
 import { WineDetailsTitle } from "./WineDetailTitle";
+import { WineDetailBody } from "./WineDetailBody";
 import { Loader } from "../ui/loader";
 import { Error } from "../ui/error";
 
@@ -44,6 +45,7 @@ export default function WineDetails({
     return (
         <section className="wine-details-container">
             <WineDetailsTitle name={wine.name} producer={wine.producer} vintage={wine.vintage} colour={wine.colour} imagePath={mapImageToColour(wine.colour)} />
+            <WineDetailBody region={wine.region} country={wine.country} appellation={wine.appellation} notes={wine.notes} in_cellar={wine.in_cellar} has_been_tasted={wine.has_been_tasted} on_wishlist={wine.on_wishlist} date_bought={wine.date_bought} price_bought={wine.price_bought} quantity={wine.quantity} />
         </section>
     )
 }
