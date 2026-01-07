@@ -1,4 +1,4 @@
-function normaliseColour(colour: string): string {
+export function normaliseColour(colour: string): string {
     return colour
         .toLowerCase()
         .trim()
