@@ -47,10 +47,8 @@ def main(docs_folder: os.path, max_text_length:int):
     docs_id_list = []
     counter = 0
     for rulebook_file in os.listdir(docs_folder):
-        if counter < 1:
-            rulebook = create_documents_for_embeddings(os.path.join(docs_folder, rulebook_file), max_text_length)
-            docs_list.extend(rulebook["documents"])
-            docs_id_list.extend(rulebook["documents_ids"])
-            counter += 1
-
+        rulebook = create_documents_for_embeddings(os.path.join(docs_folder, rulebook_file), max_text_length)
+        docs_list.extend(rulebook["documents"])
+        docs_id_list.extend(rulebook["documents_ids"])
+        
     return {"documents": docs_list, "documents_ids": docs_id_list}
