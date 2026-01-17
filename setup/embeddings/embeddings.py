@@ -26,7 +26,7 @@ def main():
                                                         embedding_function = MultilingualEmbeddingFunction(tokenizer_name, model_name, max_tokens, HF_TOKEN, batch_size, hf_timeout))
 
     docs_dict = appellation_documents.main(docs_folder, max_tokens)
-    print(docs_dict)
+
 
     total_docs = len(docs_dict["documents"])
     total_batches = total_docs // batch_size
