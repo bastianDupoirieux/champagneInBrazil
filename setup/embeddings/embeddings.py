@@ -23,9 +23,10 @@ batch_size = config["BATCH_SIZE"]
 def main():
     chroma_client = Client()
     collection = chroma_client.get_or_create_collection(name=config["collection_name"],
-                                                        embedding_function = MultilingualEmbeddingFunction(tokenizer_name, model_name, max_tokens, HF_TOKEN, batch_size))
+                                                        embedding_function = MultilingualEmbeddingFunction(tokenizer_name, model_name, max_tokens, HF_TOKEN, batch_size, hf_timeout))
 
     docs_dict = appellation_documents.main(docs_folder, max_tokens)
+    print(docs_dict)
 
     total_docs = len(docs_dict["documents"])
     total_batches = total_docs // batch_size
