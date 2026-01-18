@@ -1,6 +1,6 @@
 import ollama
 import asyncio
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any
 
 from enums.llm_provider import LLMProvider
 from models.llm_message import LLMMessage
