@@ -1,0 +1,1 @@
+DEFAULT_OLLAMA_MODEL = "gemma3:4b"
