@@ -8,3 +8,6 @@ def get_app_data_directory_env():
 
 def get_database_url_env():
     return os.getenv("DATABASE_URL")
+
+def get_ollama_model_env():
+    return os.getenv("OLLAMA_MODEL")
