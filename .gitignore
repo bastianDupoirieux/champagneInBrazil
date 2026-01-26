@@ -354,3 +354,5 @@ container.db
 !package-lock.json
 !package.json
 !tsconfig.json
+
+*.sqlite3
