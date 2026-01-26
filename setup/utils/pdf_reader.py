@@ -35,9 +35,11 @@ def prepare_text_from_pdf_file(file:os.path)->dict: #This function might not be 
         if title not in result_dict.keys():
             split_book = rulebook_utils.doc_split()
             result_dict[title] = split_book
+            print(f"Added {title} to result")
         else:
+            print("passed, appellation already in dictionary")
             pass
-
+    print(f"Finished preparing document for appellation {file}")
     return result_dict
 
 
