@@ -1,8 +1,9 @@
 #Prepare the documents to be used in embeddings
 import os
 from setup.utils import pdf_reader
+import uuid
 
-def create_id(doc_name:str, appellation:str, section:int, subsection:int)->str:
+def create_metadata(doc_name:str, appellation:str, section:int, subsection:int)->str:
     doc_name = doc_name.replace(" ", "_")[:-4]
     return doc_name + '_' + appellation + '_' + str(section) + '_' + str(subsection)
 
@@ -17,6 +18,7 @@ def split_text(text, max_length) -> list:
 def create_documents_for_embeddings(pdf_file: os.path, max_text_length:int)->dict:
     documents = []
     documents_ids = []
+    metadata_list = []
 
     book = pdf_reader.prepare_text_from_pdf_file(pdf_file)
     appellations_list = list(book.keys())
@@ -36,16 +38,17 @@ def create_documents_for_embeddings(pdf_file: os.path, max_text_length:int)->dic
                     section.extend(subtexts)
 
                 subsection_counter += 1
-                doc_id = create_id(pdf_file, appellation, section_counter, subsection_counter)
+                doc_id = uuid.uuid4()
+                metadata = create_metadata(pdf_file, appellation, section_counter, subsection_counter)
                 documents_ids.append(doc_id)
                 documents.append(text)
+                metadata_list.append(metadata)
 
-    return {"documents": documents, "documents_ids": documents_ids}
+    return {"documents": documents, "documents_ids": documents_ids, "metadata": metadata_list}
 
 def main(docs_folder: os.path, max_text_length:int):
     docs_list = []
     docs_id_list = []
-    counter = 0
     for rulebook_file in os.listdir(docs_folder):
         rulebook = create_documents_for_embeddings(os.path.join(docs_folder, rulebook_file), max_text_length)
         docs_list.extend(rulebook["documents"])
