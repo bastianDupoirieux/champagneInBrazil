@@ -12,7 +12,7 @@ def split_text(text, max_length) -> list:
     split_text_list = []
     while i*max_length < len(text):
         split_text_list.append(text[i*max_length:(i+1)*max_length])
-
+        i += 1
     return split_text_list
 
 def create_documents_for_embeddings(pdf_file: os.path, max_text_length:int)->dict:
@@ -34,7 +34,7 @@ def create_documents_for_embeddings(pdf_file: os.path, max_text_length:int)->dic
                 if len(text) > max_text_length:
                     section.remove(subsection) #if the element is too long, remove ist
                     subtexts = split_text(text, max_text_length-len(appellation))
-                    subtexts = appellation + subtexts
+                    subtexts = [appellation + s for s in subtexts]
                     section.extend(subtexts)
 
                 subsection_counter += 1
@@ -49,9 +49,15 @@ def create_documents_for_embeddings(pdf_file: os.path, max_text_length:int)->dic
 def main(docs_folder: os.path, max_text_length:int):
     docs_list = []
     docs_id_list = []
+    metadata_list = []
+    n_docs = len(os.listdir(docs_folder))
+    counter = 1
     for rulebook_file in os.listdir(docs_folder):
+        print(f"Adding document {counter}/{n_docs}")
         rulebook = create_documents_for_embeddings(os.path.join(docs_folder, rulebook_file), max_text_length)
         docs_list.extend(rulebook["documents"])
         docs_id_list.extend(rulebook["documents_ids"])
+        metadata_list.extend(rulebook["metadata"])
+        counter += 1
         
-    return {"documents": docs_list, "documents_ids": docs_id_list}
+    return {"documents": docs_list, "documents_ids": docs_id_list, "metadata": metadata_list}
