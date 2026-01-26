@@ -1,13 +1,13 @@
 import yaml
 from setup.embeddings import appellation_documents
 from setup.utils.embeddings import MultilingualEmbeddingFunction
-from chromadb import Client
+from chromadb import PersistentClient
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 HF_TOKEN = os.getenv("HF_TOKEN")
-
+CHROMA_DB_DIR = os.getenv("CHROMA_DB_DIRECTORY")
 
 with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../config.yml'), 'r') as stream:
     config = yaml.safe_load(stream)
@@ -20,8 +20,9 @@ hf_timeout = config["hf_timeout"]
 batch_size = config["BATCH_SIZE"]
 
 
+
 def main():
-    chroma_client = Client()
+    chroma_client = PersistentClient(CHROMA_DB_DIR)
     collection = chroma_client.get_or_create_collection(name=config["collection_name"],
                                                         embedding_function = MultilingualEmbeddingFunction(tokenizer_name, model_name, max_tokens, HF_TOKEN, batch_size, hf_timeout))
 
