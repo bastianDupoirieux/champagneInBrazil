@@ -37,9 +37,10 @@ def main():
         end_idx = min(start_idx + batch_size, total_docs)
         docs = docs_dict["documents"][start_idx:end_idx]
         docs_ids = docs_dict["documents_ids"][start_idx:end_idx]
+        metadata = docs_dict["metadata"][start_idx:end_idx]
 
         try:
-            collection.add(documents=docs, ids=docs_ids)
+            collection.add(documents=docs, ids=docs_ids, metadatas = metadata)
         except Exception as e:
             print(f"Error adding documents: {e}")
 
