@@ -18,15 +18,20 @@ max_tokens = config["max_tokens"]
 docs_folder = config["docs_folder"]
 hf_timeout = config["hf_timeout"]
 batch_size = config["BATCH_SIZE"]
+max_text_length=config["max_length"]
 
 
 
 def main():
+    """
+    Adds every document from a given folder to the vector db
+    :return:
+    """
     chroma_client = PersistentClient(CHROMA_DB_DIR)
     collection = chroma_client.get_or_create_collection(name=config["collection_name"],
                                                         embedding_function = MultilingualEmbeddingFunction(tokenizer_name, model_name, max_tokens, HF_TOKEN, batch_size, hf_timeout))
 
-    docs_dict = appellation_documents.main(docs_folder, max_tokens)
+    docs_dict = appellation_documents.main(docs_folder, max_text_length)
 
 
     total_docs = len(docs_dict["documents"])

@@ -12,6 +12,13 @@ with open('config.yml', 'r') as stream:
 
 
 def main(beverage_type, region, max_tries = 2):
+    """
+    Entrypoint for scraping the beverage type by region
+    :param beverage_type:
+    :param region:
+    :param max_tries:
+    :return:
+    """
 
     pdf_reader = PdfReader(config['appellation_list_file'])
     appellations = pdf_reader.read_pdf(pdf_contents_type="table")

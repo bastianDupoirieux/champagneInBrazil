@@ -7,10 +7,19 @@ import time
 
 class MultilingualEmbeddingFunction(EmbeddingFunction):
     
-    def __init__(self, tokenizer_name: str, model_name: str, max_length: int, hf_token: str, batch_size: int, timeout: int):
+    def __init__(self, tokenizer_name: str, model_name: str, max_tokens: int, hf_token: str, batch_size: int, timeout: int):
+        """
+        Creates a custom embedding function
+        :param tokenizer_name: name of the tokenizer
+        :param model_name: name of the model
+        :param max_tokens: max tokens
+        :param hf_token: HF token
+        :param batch_size: Max amount of elements per batch
+        :param timeout: HF timeout
+        """
         self.tokenizer_name = tokenizer_name
         self.model_name = model_name
-        self.max_length = max_length
+        self.max_length = max_tokens
         self.hf_token = hf_token
         self.batch_size = batch_size
         self.timeout = timeout
@@ -20,6 +29,10 @@ class MultilingualEmbeddingFunction(EmbeddingFunction):
         self._request_counter = 0
 
     def _load_models(self):
+        """
+        Loads the tokenizer and model
+        :return:
+        """
         if self._tokenizer is None:
             self._tokenizer = AutoTokenizer.from_pretrained(self.tokenizer_name, token=self.hf_token)
         if self._model is None:
@@ -27,6 +40,10 @@ class MultilingualEmbeddingFunction(EmbeddingFunction):
             self._model.eval()
 
     def _check__rate_limit(self):
+        """
+        Checks the rate limit and ensure HF timeout is not reached
+        :return:
+        """
         current_time = time.time()
         
         if self._last_request_time + self.timeout < current_time:
@@ -43,6 +60,11 @@ class MultilingualEmbeddingFunction(EmbeddingFunction):
         self._request_counter += 1
 
     def __call__(self, texts: Documents) -> Embeddings:
+        """
+        Calls the tokenizer and model to compute embeddings
+        :param texts:
+        :return:
+        """
         self._load_models()
         embeddings = []
 
