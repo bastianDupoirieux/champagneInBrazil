@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 HF_TOKEN = os.getenv("HF_TOKEN")
 
-print(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.yml'), 'r') as stream:
+
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../config.yml'), 'r') as stream:
     config = yaml.safe_load(stream)
 
 tokenizer_name = config['tokenizer']
