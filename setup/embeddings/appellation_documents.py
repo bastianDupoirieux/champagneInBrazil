@@ -58,6 +58,7 @@ def create_documents_for_embeddings(pdf_file: os.path, max_text_length:int)->dic
                     subtexts = split_text(text, max_text_length-len(appellation))
                     subtexts = [appellation + s for s in subtexts] #Add the information on every appellation to every split up text part
                     section.extend(subtexts)
+                    break #Move on to the next subsection
 
                 subsection_counter += 1
                 doc_id = uuid.uuid4()
