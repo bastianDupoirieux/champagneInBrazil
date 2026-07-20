@@ -1,0 +1,17 @@
+[tasks.sync]
+help = "Install dependencies from the lockfile (all groups)"
+cmd = "uv sync --all-groups"
+
+[tasks.lock]
+help = "Refresh the uv lockfile"
+cmd = "uv lock"
+
+[tasks.run]
+help = "Run the FastAPI backend with reload"
+cmd = "uv run server.py --port ${port} --reload true"
+args = [{ name = "port", options = ["--port"], default = "8000" }]
+
+[tasks.start]
+help = "Run the FastAPI backend without reload"
+cmd = "uv run server.py --port ${port} --reload false"
+args = [{ name = "port", options = ["--port"], default = "8000" }]
